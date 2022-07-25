@@ -9,7 +9,7 @@ class PersonalDetails extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 30, top: 50, right: 30),
+          padding: const EdgeInsets.only(left: 100, top: 50, right: 100),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -123,7 +123,7 @@ class PersonalDetails extends StatelessWidget {
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20)),
                   ),
-                  SizedBox(width: 20.w),
+                  SizedBox(width: 40.w),
                   Expanded(
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -147,7 +147,7 @@ class PersonalDetails extends StatelessWidget {
                                   Row(
                                     children: [
                                       SizedBox(
-                                        width: 200,
+                                        width: 180,
                                         child: Text("Full Name",
                                             style: TextStyle(
                                               fontSize: 16.sp,
@@ -160,7 +160,6 @@ class PersonalDetails extends StatelessWidget {
                                           )),
                                     ],
                                   ),
-                                  SizedBox(width: 600.w),
                                   ElevatedButton(
                                     style: ElevatedButton.styleFrom(
                                       primary: Colors.white,
@@ -176,7 +175,7 @@ class PersonalDetails extends StatelessWidget {
                               );
                             },
                             separatorBuilder: (context, index) => Divider(),
-                            itemCount: 12)
+                            itemCount: 14)
                       ],
                     ),
                   ),
