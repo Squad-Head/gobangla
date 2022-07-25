@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
+import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const PersonalDetails(),
+            home: const PersonalEditScreeen(),
           )),
     );
   }

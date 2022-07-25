@@ -141,7 +141,7 @@ class PersonalEditScreeen extends StatelessWidget {
                             fontSize: 16.sp,
                           ),
                         ),
-                        SizedBox(height: 20),
+                        SizedBox(height: 30),
                         Container(
                           padding: EdgeInsets.only(left: 20),
                           height: 50.h,
@@ -156,7 +156,7 @@ class PersonalEditScreeen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(10),
                               color: Colors.white),
                         ),
-                        SizedBox(height: 40.h),
+                        SizedBox(height: 15.h),
                         Row(
                           children: [
                             ElevatedButton(
@@ -222,7 +222,7 @@ class PersonalEditScreeen extends StatelessWidget {
                               );
                             },
                             separatorBuilder: (context, index) => Divider(),
-                            itemCount: 14)
+                            itemCount: 10)
                       ],
                     ),
                   ),
