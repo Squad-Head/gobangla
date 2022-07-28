@@ -1,9 +1,14 @@
+import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tourist_booking/presentation/auth/registration/registration_screen.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
 
 void main() {
-  runApp(const MyApp());
+  CleanApi.instance
+      .setup(baseUrl: 'https://beach-data.up.railway.app/api/', showLogs: true);
+  runApp(const ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
@@ -20,7 +25,7 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const PersonalDetails(),
+            home: const RegistrationScreen(),
           )),
     );
   }
