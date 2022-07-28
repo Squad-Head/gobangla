@@ -21,6 +21,9 @@ class PersonalDetails extends StatelessWidget {
                         horizontal: 30, vertical: 30),
                     height: 600.h,
                     width: 300.w,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Column(
                       children: [
                         Row(
@@ -28,12 +31,12 @@ class PersonalDetails extends StatelessWidget {
                           children: [
                             IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.camera_alt_sharp),
+                              icon: const Icon(Icons.camera_alt_sharp),
                             ),
                             SizedBox(width: 20.w),
                             Column(
                               children: [
-                                CircleAvatar(
+                                const CircleAvatar(
                                   radius: 26,
                                   backgroundImage:
                                       AssetImage("assets/images/a.jpg"),
@@ -50,7 +53,7 @@ class PersonalDetails extends StatelessWidget {
                             SizedBox(width: 20.w),
                             IconButton(
                               onPressed: () {},
-                              icon: Icon(Icons.edit),
+                              icon: const Icon(Icons.edit),
                             ),
                           ],
                         ),
@@ -59,7 +62,7 @@ class PersonalDetails extends StatelessWidget {
                         SizedBox(height: 40.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.people,
                               color: Colors.grey,
                             ),
@@ -75,7 +78,7 @@ class PersonalDetails extends StatelessWidget {
                         SizedBox(height: 20.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.notifications,
                               color: Colors.grey,
                             ),
@@ -90,7 +93,7 @@ class PersonalDetails extends StatelessWidget {
                             Container(
                               height: 20.h,
                               width: 20.w,
-                              color: Color.fromARGB(70, 255, 235, 59),
+                              color: const Color.fromARGB(70, 255, 235, 59),
                               child: Center(
                                 child: Text(
                                   "26",
@@ -103,11 +106,11 @@ class PersonalDetails extends StatelessWidget {
                         SizedBox(height: 20.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.logout,
                               color: Colors.grey,
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Text(
                               "Logout",
                               style: TextStyle(
@@ -119,9 +122,6 @@ class PersonalDetails extends StatelessWidget {
                         SizedBox(height: 20.h),
                       ],
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
                   ),
                   SizedBox(width: 20.w),
                   Expanded(
@@ -175,7 +175,8 @@ class PersonalDetails extends StatelessWidget {
                                 ],
                               );
                             },
-                            separatorBuilder: (context, index) => Divider(),
+                            separatorBuilder: (context, index) =>
+                                const Divider(),
                             itemCount: 12)
                       ],
                     ),

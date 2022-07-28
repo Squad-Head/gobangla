@@ -10,8 +10,10 @@ class AuthRepo extends IAuthRepo {
   @override
   Future<Either<CleanFailure, UserModel>> registration(
       RegistrationModel registrationModel) async {
+    Logger.i(registrationModel.toMap());
     final prefs = await SharedPreferences.getInstance();
     final userData = await cleanApi.post(
+        showLogs: true,
         fromData: (json) {
           Logger.i(json);
           try {

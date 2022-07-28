@@ -232,7 +232,7 @@ class RegistrationScreen extends HookConsumerWidget {
                               fullName: fullNameController.text,
                               password: passwordController.text,
                               nidNo: nidController.text,
-                              phoneNo: mobileController.text,
+                              phoneNo: int.tryParse(mobileController.text) ?? 0,
                               fathersName: fathersNameController.text,
                               mothersName: mothersNameController.text,
                               permanentAddress: perAddressController.text,

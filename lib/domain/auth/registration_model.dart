@@ -8,7 +8,7 @@ class RegistrationModel extends Equatable {
   final String fullName;
   final String password;
   final String nidNo;
-  final String phoneNo;
+  final int phoneNo;
   final String fathersName;
   final String mothersName;
   final String permanentAddress;
@@ -46,7 +46,7 @@ class RegistrationModel extends Equatable {
     String? fullName,
     String? password,
     String? nidNo,
-    String? phoneNo,
+    int? phoneNo,
     String? fathersName,
     String? mothersName,
     String? permanentAddress,
@@ -113,7 +113,7 @@ class RegistrationModel extends Equatable {
       fullName: map['fullName'] as String,
       password: map['password'] as String,
       nidNo: map['nidNo'] as String,
-      phoneNo: map['phoneNo'] as String,
+      phoneNo: map['phoneNo'] as int,
       fathersName: map['fathersName'] as String,
       mothersName: map['mothersName'] as String,
       permanentAddress: map['permanentAddress'] as String,
@@ -165,7 +165,7 @@ class RegistrationModel extends Equatable {
       fullName: '',
       password: '',
       nidNo: '',
-      phoneNo: '',
+      phoneNo: 0,
       fathersName: '',
       mothersName: '',
       permanentAddress: '',
