@@ -8,12 +8,30 @@ class AuthRepo extends IAuthRepo {
   final cleanApi = CleanApi.instance;
 
   @override
-  Future<Either<CleanFailure, Unit>> registration(
+  Future<Either<CleanFailure, UserModel>> registration(
       RegistrationModel registrationModel) async {
-    return await cleanApi.post(
-        fromData: (json) => unit,
+    final prefs = await SharedPreferences.getInstance();
+    final userData = await cleanApi.post(
+        fromData: (json) {
+          Logger.i(json);
+          try {
+            final token = json['token'] as String;
+            prefs.setString('token', token);
+            cleanApi.setToken({"Authorization": "Bearer $token"});
+            return UserModel.fromMap(json['data']);
+          } catch (e) {
+            if (json['errors'] != null && (json['errors'] as List).isNotEmpty) {
+              final error = (json['errors'] as List).first;
+              throw error['message'];
+            } else {
+              rethrow;
+            }
+          }
+        },
         body: registrationModel.toMap(),
         endPoint: 'user/registration');
+    Logger.i(userData);
+    return userData;
   }
 
   @override

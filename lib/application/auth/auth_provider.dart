@@ -16,8 +16,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
   registration(RegistrationModel registrationModel) async {
     state = state.copyWith(loading: true);
     final data = await authRepo.registration(registrationModel);
+    Logger.i(data);
     state = data.fold((l) => state.copyWith(loading: false, failure: l),
-        (r) => state.copyWith(loading: false));
+        (r) => state.copyWith(loading: false, user: r));
   }
 
   login({required String phoneNo, required String password}) async {

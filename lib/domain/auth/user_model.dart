@@ -5,6 +5,7 @@ import 'package:equatable/equatable.dart';
 
 class UserModel extends Equatable {
   final String id;
+  final String password;
   final bool hasAccess;
   final String fullName;
   final String nidNo;
@@ -25,6 +26,7 @@ class UserModel extends Equatable {
   final String updatedAt;
   const UserModel({
     required this.id,
+    required this.password,
     required this.hasAccess,
     required this.fullName,
     required this.nidNo,
@@ -47,6 +49,7 @@ class UserModel extends Equatable {
 
   UserModel copyWith({
     String? id,
+    String? password,
     bool? hasAccess,
     String? fullName,
     String? nidNo,
@@ -68,6 +71,7 @@ class UserModel extends Equatable {
   }) {
     return UserModel(
       id: id ?? this.id,
+      password: password ?? this.password,
       hasAccess: hasAccess ?? this.hasAccess,
       fullName: fullName ?? this.fullName,
       nidNo: nidNo ?? this.nidNo,
@@ -96,6 +100,7 @@ class UserModel extends Equatable {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
+      'password': password,
       'hasAccess': hasAccess,
       'fullName': fullName,
       'nidNo': nidNo,
@@ -119,7 +124,8 @@ class UserModel extends Equatable {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['_id'] as String,
+      id: map['_id'] ?? '',
+      password: map['password'] ?? '',
       hasAccess: map['hasAccess'] as bool,
       fullName: map['fullName'] as String,
       nidNo: map['nidNo'] as String,
@@ -153,6 +159,7 @@ class UserModel extends Equatable {
   List<Object> get props {
     return [
       id,
+      password,
       hasAccess,
       fullName,
       nidNo,
@@ -176,6 +183,7 @@ class UserModel extends Equatable {
 
   factory UserModel.init() => const UserModel(
       id: '',
+      password: '',
       hasAccess: false,
       fullName: '',
       nidNo: '',
