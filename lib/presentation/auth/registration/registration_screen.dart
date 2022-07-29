@@ -6,7 +6,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/presentation/auth/registration/custom_dropdown.dart';
-import 'package:tourist_booking/presentation/auth/registration/custom_textfield.dart';
+import 'package:tourist_booking/presentation/auth/widgets/custom_textfield.dart';
 
 class RegistrationScreen extends HookConsumerWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
