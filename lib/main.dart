@@ -2,8 +2,7 @@ import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-
-import 'presentation/auth/registration/registration_screen.dart';
+import 'package:tourist_booking/presentation/auth/login/login_screen.dart';
 
 void main() {
   CleanApi.instance
@@ -24,8 +23,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            //home: const LoginScreen(),
-            home: const RegistrationScreen(),
+            home: const LoginScreen(),
+            //home: const RegistrationScreen(),
           )),
     );
   }
