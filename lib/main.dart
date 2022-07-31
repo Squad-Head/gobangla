@@ -4,6 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/presentation/auth/intro_screen.dart';
 import 'package:tourist_booking/presentation/auth/registration/registration_screen.dart';
+import 'package:tourist_booking/presentation/personal_details.dart';
 import 'package:tourist_booking/presentation/reroute_page.dart';
 
 void main() {
@@ -26,8 +27,8 @@ class MyApp extends StatelessWidget {
             theme: ThemeData(
               primarySwatch: Colors.blue,
             ),
-            home: const ReRoutePage(),
-            //home: const RegistrationScreen(),
+            //home: const ReRoutePage(),
+            home: const PersonalDetailsScreen(),
           )),
     );
   }
