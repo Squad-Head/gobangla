@@ -2,8 +2,8 @@ import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tourist_booking/presentation/auth/intro_screen.dart';
-import 'package:tourist_booking/presentation/personal_details.dart';
+
+import 'presentation/auth/intro_screen.dart';
 
 void main() {
   CleanApi.instance.setup(
