@@ -34,4 +34,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
     );
     Logger.i(data);
   }
+
+  tryLogin() async {
+    state = state.copyWith(loading: true);
+    final data = await authRepo.tryLogin();
+
+    state = data.fold(
+        (l) => state.copyWith(loading: false, failure: l),
+        (r) => state.copyWith(
+            loading: false, user: r, failure: CleanFailure.none()));
+  }
 }

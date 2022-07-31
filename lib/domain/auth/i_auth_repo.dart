@@ -8,4 +8,6 @@ abstract class IAuthRepo {
 
   Future<Either<CleanFailure, UserModel>> logIn(
       {required String phoneNo, required String password});
+
+  Future<Either<CleanFailure, UserModel>> tryLogin();
 }

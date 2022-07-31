@@ -63,8 +63,21 @@ class AuthRepo extends IAuthRepo {
     });
   }
 
-  getUserInfo() async {
-    return cleanApi.get(
+  @override
+  Future<Either<CleanFailure, UserModel>> tryLogin() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final r = prefs.getString('token');
+      cleanApi.setToken({"Authorization": "Bearer $r"});
+      return await getUserInfo();
+    } catch (e) {
+      return left(
+          CleanFailure(tag: 'Initial login check', error: e.toString()));
+    }
+  }
+
+  Future<Either<CleanFailure, UserModel>> getUserInfo() async {
+    return await cleanApi.get(
         fromData: (json) {
           return UserModel.fromMap(json['data']);
         },
