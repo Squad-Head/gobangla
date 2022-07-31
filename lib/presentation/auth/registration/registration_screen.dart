@@ -15,7 +15,6 @@ class RegistrationScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    //final professionController = useTextEditingController();
     final serviceController = useTextEditingController();
 
     final fullNameController = useTextEditingController();

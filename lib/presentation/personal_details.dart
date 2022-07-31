@@ -13,7 +13,6 @@ class PersonalDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final ValueNotifier<File?> imageFile = useState(null);
     final state = ref.watch(authProvider);
     return Scaffold(
       body: SingleChildScrollView(
@@ -22,6 +21,7 @@ class PersonalDetailsScreen extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              if (state.loading) const LinearProgressIndicator(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -40,7 +40,12 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                           children: [
                             IconButton(
                               onPressed: () async {
-                                imageFile.value = await pickImage();
+                                final image = await pickImage();
+                                if (image != null) {
+                                  ref
+                                      .read(authProvider.notifier)
+                                      .uploadProfile(image);
+                                }
                               },
                               icon: const Icon(Icons.camera_alt_sharp),
                             ),
@@ -48,10 +53,11 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                             Column(
                               children: [
                                 CircleAvatar(
-                                    radius: 26,
-                                    backgroundImage: imageFile.value != null
-                                        ? NetworkImage(imageFile.value!.path)
-                                        : null),
+                                    radius: 80.w,
+                                    backgroundImage:
+                                        state.user.avater.isNotEmpty
+                                            ? NetworkImage(state.user.avater)
+                                            : null),
                                 SizedBox(height: 20.h),
                                 Text(
                                   state.user.fullName,
@@ -61,11 +67,6 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
-                            ),
-                            SizedBox(width: 20.w),
-                            IconButton(
-                              onPressed: () {},
-                              icon: const Icon(Icons.edit),
                             ),
                           ],
                         ),
@@ -202,15 +203,9 @@ class PersonalDetailsScreen extends HookConsumerWidget {
     );
   }
 
-  Future<File?> pickImage() async {
-    final ImagePicker _picker = ImagePicker();
+  Future<XFile?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
     // Pick an image
-    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
-
-    if (image != null) {
-      return File(image.path);
-    } else {
-      return null;
-    }
+    return await picker.pickImage(source: ImageSource.gallery);
   }
 }

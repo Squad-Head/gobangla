@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:clean_api/clean_api.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/i_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
@@ -38,6 +41,19 @@ class AuthNotifier extends StateNotifier<AuthState> {
   tryLogin() async {
     state = state.copyWith(loading: true);
     final data = await authRepo.tryLogin();
+
+    state = data.fold(
+        (l) => state.copyWith(
+              loading: false,
+            ),
+        (r) => state.copyWith(
+            loading: false, user: r, failure: CleanFailure.none()));
+  }
+
+  uploadProfile(XFile image) async {
+    state = state.copyWith(loading: true);
+    await authRepo.uploadImage(image, state.user.id);
+    final data = await authRepo.getUserInfo();
 
     state = data.fold(
         (l) => state.copyWith(

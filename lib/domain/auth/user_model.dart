@@ -21,6 +21,7 @@ class UserModel extends Equatable {
   final String details;
   final String createdAt;
   final String updatedAt;
+  final String avater;
   const UserModel({
     required this.id,
     required this.fullName,
@@ -40,6 +41,7 @@ class UserModel extends Equatable {
     required this.details,
     required this.createdAt,
     required this.updatedAt,
+    required this.avater,
   });
 
   UserModel copyWith({
@@ -61,6 +63,7 @@ class UserModel extends Equatable {
     String? details,
     String? createdAt,
     String? updatedAt,
+    String? avater,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -85,6 +88,7 @@ class UserModel extends Equatable {
       details: details ?? this.details,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      avater: avater ?? this.avater,
     );
   }
 
@@ -108,12 +112,13 @@ class UserModel extends Equatable {
       'details': details,
       'createdAt': createdAt,
       'updatedAt': updatedAt,
+      'avater': avater,
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       fullName: map['fullName'] ?? '',
       nidNo: map['nidNo'] ?? '',
       phoneNo: map['phoneNo'] ?? '',
@@ -131,6 +136,7 @@ class UserModel extends Equatable {
       details: map['details'] ?? '',
       createdAt: map['createdAt'] ?? '',
       updatedAt: map['updatedAt'] ?? '',
+      avater: map['avater'] ?? '',
     );
   }
 
@@ -163,6 +169,7 @@ class UserModel extends Equatable {
       details,
       createdAt,
       updatedAt,
+      avater,
     ];
   }
 
@@ -184,10 +191,11 @@ class UserModel extends Equatable {
       service: '',
       details: '',
       createdAt: '',
+      avater: '',
       updatedAt: '');
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'UserModel(id: $id, fullName: $fullName, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, createdAt: $createdAt, updatedAt: $updatedAt, avater: $avater)';
   }
 }

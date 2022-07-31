@@ -1,8 +1,12 @@
 import 'package:clean_api/clean_api.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:mime_type/mime_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/domain/auth/i_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
+import 'package:path/path.dart';
 
 class AuthRepo extends IAuthRepo {
   final cleanApi = CleanApi.instance;
@@ -76,11 +80,40 @@ class AuthRepo extends IAuthRepo {
     }
   }
 
+  @override
   Future<Either<CleanFailure, UserModel>> getUserInfo() async {
     return await cleanApi.get(
         fromData: (json) {
           return UserModel.fromMap(json['data']);
         },
+        showLogs: true,
         endPoint: 'user/get-loggedin-user-info');
+  }
+
+  @override
+  Future<void> uploadImage(XFile image, String userId) async {
+    try {
+      final uri = Uri.parse(
+          'https://beach-data.up.railway.app/api/user/upload-user-image?params=$userId');
+      Logger.i(
+          'https://beach-data.up.railway.app/api/user/upload-user-image?params=$userId');
+      // final uri = Uri.https('beach-data.up.railway.app',
+      //     '/api/user/upload-user-image', {'params': userId});
+      var request = MultipartRequest('POST', uri);
+      final bytes = await image.readAsBytes();
+      final httpImage =
+          MultipartFile.fromBytes('image', bytes, filename: image.name);
+      final headers = await cleanApi.header(true);
+      request.headers.addAll(headers);
+      request.headers.addAll({"Content-Type": image.mimeType!});
+      Logger.i(request.headers);
+      request.files.add(httpImage);
+      final response = await request.send();
+      Logger.i(response.statusCode);
+      final respStr = await response.stream.bytesToString();
+      Logger.i(respStr);
+    } catch (e) {
+      Logger.e(e);
+    }
   }
 }
