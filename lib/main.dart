@@ -14,30 +14,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-<<<<<<< HEAD
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const Register(),
-    );
-  }
-}
-
-=======
     return ScreenUtilInit(
-      designSize: const Size(1440, 718.0),
-      builder: ((context, child) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            home: const PersonalEditScreeen(),
-          )),
+      designSize: const Size(1536.0, 745.6),
+      builder: (context, child) => const MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Kormo web',
+        home: Register(),
+      ),
     );
   }
 }
->>>>>>> 983dcc5a88e65ae67aba284d5e98c774f5181bde

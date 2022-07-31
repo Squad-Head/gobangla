@@ -9,7 +9,7 @@ class PersonalDetails extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: const EdgeInsets.only(left: 100, top: 50, right: 100),
+          padding: const EdgeInsets.only(left: 100, top: 50, right: 100).r,
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
