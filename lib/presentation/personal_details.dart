@@ -1,6 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
 
@@ -9,6 +13,7 @@ class PersonalDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final ValueNotifier<File?> imageFile = useState(null);
     final state = ref.watch(authProvider);
     return Scaffold(
       body: SingleChildScrollView(
@@ -34,17 +39,19 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              onPressed: () {},
+                              onPressed: () async {
+                                imageFile.value = await pickImage();
+                              },
                               icon: const Icon(Icons.camera_alt_sharp),
                             ),
                             SizedBox(width: 20.w),
                             Column(
                               children: [
-                                const CircleAvatar(
-                                  radius: 26,
-                                  backgroundImage:
-                                      AssetImage("assets/images/a.jpg"),
-                                ),
+                                CircleAvatar(
+                                    radius: 26,
+                                    backgroundImage: imageFile.value != null
+                                        ? NetworkImage(imageFile.value!.path)
+                                        : null),
                                 SizedBox(height: 20.h),
                                 Text(
                                   state.user.fullName,
@@ -140,17 +147,21 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                               fontSize: 30.sp, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 40.h),
-                        const PersonalInfo(title: 'Full name', value: 'Kousik'),
-                        const PersonalInfo(
-                            title: 'NID number', value: '12345678'),
-                        const PersonalInfo(
-                            title: 'Fathers name', value: 'Slauddin Ahmed'),
-                        const PersonalInfo(
-                            title: 'Mothers name', value: 'Mahabuba Rahman'),
-                        const PersonalInfo(
-                            title: 'Mobile number', value: '0198765432'),
-                        const PersonalInfo(
-                            title: 'Permanent address', value: 'uttara dhaka'),
+                        PersonalInfo(
+                            title: 'Full name', value: state.user.fullName),
+                        PersonalInfo(
+                            title: 'NID number', value: state.user.nidNo),
+                        PersonalInfo(
+                            title: 'Fathers name',
+                            value: state.user.fathersName),
+                        PersonalInfo(
+                            title: 'Mothers name',
+                            value: state.user.mothersName),
+                        PersonalInfo(
+                            title: 'Mobile number', value: state.user.phoneNo),
+                        PersonalInfo(
+                            title: 'Permanent address',
+                            value: state.user.permanentAddress),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -159,10 +170,12 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const PersonalInfo(
-                            title: 'Name', value: 'Zaman Mostofa'),
-                        const PersonalInfo(
-                            title: 'Phone number', value: '0198765432'),
+                        PersonalInfo(
+                            title: 'Name',
+                            value: state.user.recomandationGiverName),
+                        PersonalInfo(
+                            title: 'Phone number',
+                            value: state.user.recomandationGiverMobileNo),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -171,12 +184,12 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        const PersonalInfo(
+                        PersonalInfo(
                             title:
                                 'Id number (Issued by beach management committee)',
-                            value: '293'),
-                        const PersonalInfo(
-                            title: 'Join as a', value: 'Photographer'),
+                            value: state.user.beachManagementCommiteeId),
+                        PersonalInfo(
+                            title: 'Join as a', value: state.user.service),
                       ],
                     ),
                   ),
@@ -187,5 +200,17 @@ class PersonalDetailsScreen extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<File?> pickImage() async {
+    final ImagePicker _picker = ImagePicker();
+    // Pick an image
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+
+    if (image != null) {
+      return File(image.path);
+    } else {
+      return null;
+    }
   }
 }
