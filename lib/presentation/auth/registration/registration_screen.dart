@@ -4,9 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
+import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
-import 'package:tourist_booking/presentation/auth/registration/custom_dropdown.dart';
+import 'package:tourist_booking/domain/auth/user_model.dart';
 import 'package:tourist_booking/presentation/auth/widgets/custom_textfield.dart';
+import 'package:tourist_booking/presentation/personal_details.dart';
 
 class RegistrationScreen extends HookConsumerWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -31,6 +33,19 @@ class RegistrationScreen extends HookConsumerWidget {
     final policeIdController = useTextEditingController();
 
     final passwordController = useTextEditingController();
+    ref.listen<AuthState>(authProvider, (previous, next) async {
+      if (previous?.loading != next.loading && !next.loading) {
+        if (next.user != UserModel.init()) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (_) => const PersonalDetailsScreen()),
+              (route) => false);
+        } else if (next.failure != CleanFailure.none()) {
+          next.failure.showDialogue(context);
+        }
+      }
+    });
+    final loading = ref.watch(authProvider.select((value) => value.loading));
 
     return Scaffold(
       appBar: AppBar(
@@ -206,56 +221,60 @@ class RegistrationScreen extends HookConsumerWidget {
                 height: 20,
               ),
               Center(
-                child: SizedBox(
-                  width: 300,
-                  height: 40,
-                  child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color(0xff53A45C),
+                child: loading
+                    ? const CircularProgressIndicator()
+                    : SizedBox(
+                        width: 300,
+                        height: 40,
+                        child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              primary: const Color(0xff53A45C),
+                            ),
+                            onPressed: () {
+                              if (fullNameController.text.isNotEmpty &&
+                                  nidController.text.isNotEmpty &&
+                                  fathersNameController.text.isNotEmpty &&
+                                  mothersNameController.text.isNotEmpty &&
+                                  perAddressController.text.isNotEmpty &&
+                                  mobileController.text.isNotEmpty &&
+                                  recnameController.text.isNotEmpty &&
+                                  recAddressController.text.isNotEmpty &&
+                                  recMobileController.text.isNotEmpty &&
+                                  beachIdController.text.isNotEmpty &&
+                                  serviceController.text.isNotEmpty &&
+                                  passwordController.text.isNotEmpty &&
+                                  policeIdController.text.isNotEmpty) {
+                                final registrationModel = RegistrationModel(
+                                    hasAccess: true,
+                                    fullName: fullNameController.text,
+                                    password: passwordController.text,
+                                    nidNo: nidController.text,
+                                    phoneNo: mobileController.text,
+                                    fathersName: fathersNameController.text,
+                                    mothersName: mothersNameController.text,
+                                    permanentAddress: perAddressController.text,
+                                    presentAddress: 'Dhaka',
+                                    recomandationGiverName:
+                                        recnameController.text,
+                                    recomandationGiverAddress:
+                                        recAddressController.text,
+                                    recomandationGiverMobileNo:
+                                        recMobileController.text,
+                                    beachManagementCommiteeId:
+                                        beachIdController.text,
+                                    touristCommiteeId: policeIdController.text,
+                                    validityDate: '01/26',
+                                    service: serviceController.text,
+                                    details: 'details of the user');
+                                ref
+                                    .read(authProvider.notifier)
+                                    .registration(registrationModel);
+                              } else {
+                                Logger.i('fields needed');
+                              }
+                            },
+                            child: const Text('Registration')),
                       ),
-                      onPressed: () {
-                        if (fullNameController.text.isNotEmpty &&
-                            nidController.text.isNotEmpty &&
-                            fathersNameController.text.isNotEmpty &&
-                            mothersNameController.text.isNotEmpty &&
-                            perAddressController.text.isNotEmpty &&
-                            mobileController.text.isNotEmpty &&
-                            recnameController.text.isNotEmpty &&
-                            recAddressController.text.isNotEmpty &&
-                            recMobileController.text.isNotEmpty &&
-                            beachIdController.text.isNotEmpty &&
-                            serviceController.text.isNotEmpty &&
-                            passwordController.text.isNotEmpty &&
-                            policeIdController.text.isNotEmpty) {
-                          final registrationModel = RegistrationModel(
-                              hasAccess: true,
-                              fullName: fullNameController.text,
-                              password: passwordController.text,
-                              nidNo: nidController.text,
-                              phoneNo: mobileController.text,
-                              fathersName: fathersNameController.text,
-                              mothersName: mothersNameController.text,
-                              permanentAddress: perAddressController.text,
-                              presentAddress: 'Dhaka',
-                              recomandationGiverName: recnameController.text,
-                              recomandationGiverAddress:
-                                  recAddressController.text,
-                              recomandationGiverMobileNo:
-                                  recMobileController.text,
-                              beachManagementCommiteeId: beachIdController.text,
-                              touristCommiteeId: policeIdController.text,
-                              validityDate: '01/26',
-                              service: serviceController.text,
-                              details: 'details of the user');
-                          ref
-                              .read(authProvider.notifier)
-                              .registration(registrationModel);
-                        } else {
-                          Logger.i('fields needed');
-                        }
-                      },
-                      child: const Text('Registration')),
-                ),
               ),
               const SizedBox(
                 height: 20,
