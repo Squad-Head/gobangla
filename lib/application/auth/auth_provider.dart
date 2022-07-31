@@ -40,7 +40,9 @@ class AuthNotifier extends StateNotifier<AuthState> {
     final data = await authRepo.tryLogin();
 
     state = data.fold(
-        (l) => state.copyWith(loading: false, failure: l),
+        (l) => state.copyWith(
+              loading: false,
+            ),
         (r) => state.copyWith(
             loading: false, user: r, failure: CleanFailure.none()));
   }
