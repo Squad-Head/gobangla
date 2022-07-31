@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
 
-class PersonalDetailsScreen extends StatelessWidget {
+class PersonalDetailsScreen extends HookConsumerWidget {
   const PersonalDetailsScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final state = ref.watch(authProvider);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -44,7 +47,8 @@ class PersonalDetailsScreen extends StatelessWidget {
                                 ),
                                 SizedBox(height: 20.h),
                                 Text(
-                                  "User Name",
+                                  state.user.fullName,
+                                  //"User Name",
                                   style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold),

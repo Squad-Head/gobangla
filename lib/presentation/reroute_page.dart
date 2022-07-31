@@ -8,6 +8,7 @@ import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
 import 'package:tourist_booking/presentation/auth/login/login_screen.dart';
+import 'package:tourist_booking/presentation/personal_details.dart';
 import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
 
 class ReRoutePage extends HookConsumerWidget {
@@ -31,7 +32,7 @@ class ReRoutePage extends HookConsumerWidget {
 
         if (next.user != UserModel.init()) {
           Navigator.push(context,
-              MaterialPageRoute(builder: (_) => const PersonalEditScreeen()));
+              MaterialPageRoute(builder: (_) => const PersonalDetailsScreen()));
         } else if (next.user == UserModel.init()) {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => const LoginScreen()));
