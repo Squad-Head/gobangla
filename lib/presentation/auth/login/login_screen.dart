@@ -11,27 +11,12 @@ class LoginScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    //final professionController = useTextEditingController();
-    final serviceController = useTextEditingController();
-
-    final fullNameController = useTextEditingController();
-    final nidController = useTextEditingController();
-    final fathersNameController = useTextEditingController();
-    final mothersNameController = useTextEditingController();
-    final perAddressController = useTextEditingController();
     final mobileController = useTextEditingController();
-
-    final recnameController = useTextEditingController();
-    final recAddressController = useTextEditingController();
-    final recMobileController = useTextEditingController();
-
-    final beachIdController = useTextEditingController();
-    final policeIdController = useTextEditingController();
 
     final passwordController = useTextEditingController();
 
     return Scaffold(
-      body: ListView(
+      body: Column(
         children: [
           const SizedBox(
             height: 100,

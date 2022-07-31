@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:tourist_booking/presentation/personal_info.dart';
 
-class PersonalDetails extends StatelessWidget {
-  const PersonalDetails({Key? key}) : super(key: key);
+class PersonalDetailsScreen extends StatelessWidget {
+  const PersonalDetailsScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -135,48 +136,43 @@ class PersonalDetails extends StatelessWidget {
                               fontSize: 30.sp, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(height: 40.h),
-                        ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 180,
-                                        child: Text("Full Name",
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                            )),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text("User Name",
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                          )),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                    ),
-                                    onPressed: () {},
-                                    child: Text("Edit",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                        )),
-                                  ),
-                                ],
-                              );
-                            },
-                            separatorBuilder: (context, index) =>
-                                const Divider(),
-                            itemCount: 12)
+                        const PersonalInfo(title: 'Full name', value: 'Kousik'),
+                        const PersonalInfo(
+                            title: 'NID number', value: '12345678'),
+                        const PersonalInfo(
+                            title: 'Fathers name', value: 'Slauddin Ahmed'),
+                        const PersonalInfo(
+                            title: 'Mothers name', value: 'Mahabuba Rahman'),
+                        const PersonalInfo(
+                            title: 'Mobile number', value: '0198765432'),
+                        const PersonalInfo(
+                            title: 'Permanent address', value: 'uttara dhaka'),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Referred by',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const PersonalInfo(
+                            title: 'Name', value: 'Zaman Mostofa'),
+                        const PersonalInfo(
+                            title: 'Phone number', value: '0198765432'),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Other info',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        const PersonalInfo(
+                            title:
+                                'Id number (Issued by beach management committee)',
+                            value: '293'),
+                        const PersonalInfo(
+                            title: 'Join as a', value: 'Photographer'),
                       ],
                     ),
                   ),
