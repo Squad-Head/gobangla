@@ -2,9 +2,6 @@ import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
-import 'package:tourist_booking/presentation/auth/intro_screen.dart';
-import 'package:tourist_booking/presentation/auth/registration/registration_screen.dart';
-import 'package:tourist_booking/presentation/personal_details.dart';
 import 'package:tourist_booking/presentation/reroute_page.dart';
 
 void main() {
@@ -21,15 +18,17 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1440, 718.0),
-      builder: ((context, child) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            title: 'Hello Cox',
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            //home: const ReRoutePage(),
-            home: const PersonalDetailsScreen(),
-          )),
+      builder: ((context, child) {
+        return MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Hello Cox',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const ReRoutePage(),
+          //home: const Register(),
+        );
+      }),
     );
   }
 }

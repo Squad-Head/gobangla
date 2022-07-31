@@ -7,7 +7,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
-import 'package:tourist_booking/presentation/auth/intro_screen.dart';
 import 'package:tourist_booking/presentation/auth/login/login_screen.dart';
 import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
 
@@ -27,8 +26,10 @@ class ReRoutePage extends HookConsumerWidget {
       // final prefs = await SharedPreferences.getInstance();
       // final bool x = prefs.getBool('first') ?? true;
       if (previous?.loading != next.loading && !next.loading) {
-        if (next.user != UserModel.init() &&
-            previous?.user.id != next.user.id) {
+        // if (next.user != UserModel.init() &&
+        //     previous?.user.id != next.user.id)
+
+        if (next.user != UserModel.init()) {
           Navigator.push(context,
               MaterialPageRoute(builder: (_) => const PersonalEditScreeen()));
         } else if (next.user == UserModel.init()) {
