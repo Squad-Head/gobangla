@@ -2,6 +2,7 @@ import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tourist_booking/presentation/admin_page/admin_panel.dart';
 
 import 'registerPage/landing_page.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           // home: const ReRoutePage(),
-          home: const LandingPage(),
+          // home: const LandingPage(),
+          home: const AdminPanelPage(),
         );
       }),
     );
