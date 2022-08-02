@@ -236,7 +236,7 @@ class AdminPanelPage extends HookConsumerWidget {
                           SizedBox(
                             width: 250.w,
                             child: Text(
-                              '1 August, 2022',
+                              state.userList[index].validityDate,
                               style: TextStyle(
                                 fontSize: 13.sp,
                                 color: const Color(0xFF505062),
@@ -256,7 +256,7 @@ class AdminPanelPage extends HookConsumerWidget {
                           SizedBox(
                             width: 280.w,
                             child: Text(
-                              'kousikambani9@mail.com',
+                              state.userList[index].phoneNo,
                               style: TextStyle(
                                 fontSize: 13.sp,
                                 color: const Color(0xFF505062),
@@ -266,7 +266,7 @@ class AdminPanelPage extends HookConsumerWidget {
                           SizedBox(
                             width: 150.w,
                             child: Text(
-                              '123456kousik',
+                              state.userList[index].password,
                               style: TextStyle(
                                 fontSize: 13.sp,
                                 color: const Color(0xFF505062),
