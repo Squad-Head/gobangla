@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tourist_booking/presentation/auth/login/login_screen.dart';
 
 class IntroScreen extends StatelessWidget {
   const IntroScreen({Key? key}) : super(key: key);
@@ -49,8 +48,8 @@ class IntroScreen extends StatelessWidget {
                     padding: const EdgeInsets.symmetric(
                         horizontal: 40, vertical: 20)),
                 onPressed: () {
-                  Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => const LoginScreen()));
+                  // Navigator.of(context).push(MaterialPageRoute(
+                  //     builder: (context) => const LoginScreen()));
                 },
                 child: const Text('Login',
                     style: TextStyle(color: Colors.black, fontSize: 20)))

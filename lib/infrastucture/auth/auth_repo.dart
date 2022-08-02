@@ -116,4 +116,46 @@ class AuthRepo extends IAuthRepo {
       Logger.e(e);
     }
   }
+
+  @override
+  Future<Either<CleanFailure, UserModel>> addNewAdmin(
+      {required bool hasAccess,
+      required String name,
+      required String username,
+      required String email,
+      required String password,
+      required String role}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = await cleanApi.post(
+        showLogs: true,
+        fromData: (json) {
+          Logger.i(json);
+          try {
+            final token = json['token'] as String;
+            prefs.setString('token', token);
+            cleanApi.setToken({"Authorization": "Bearer $token"});
+            return UserModel.fromMap(json['data']);
+          } catch (e) {
+            if (json['errors'] != null && (json['errors'] as List).isNotEmpty) {
+              final error = (json['errors'] as List).first;
+              throw error['message'];
+            } else {
+              rethrow;
+            }
+          }
+        },
+        body: {
+          "hasAccess": hasAccess,
+          "name": name,
+          "username": username,
+          "email": email,
+          "password": password,
+          "role": role
+        },
+        endPoint: 'admin/registration');
+    Logger.i(userData);
+    return userData;
+    // TODO: implement addNewAdmin
+    throw UnimplementedError();
+  }
 }
