@@ -28,8 +28,7 @@ class MyApp extends StatelessWidget {
             primarySwatch: Colors.blue,
           ),
           // home: const ReRoutePage(),
-          // home: const LandingPage(),
-          home: const AdminPanelPage(),
+          home: const LandingPage(),
         );
       }),
     );
