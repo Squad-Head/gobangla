@@ -8,7 +8,6 @@ import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
 import 'package:tourist_booking/presentation/router/router.gr.dart';
 import 'package:tourist_booking/presentation/user/auth/login_dialogue.dart';
-import 'package:tourist_booking/presentation/personal_details.dart';
 
 class LandingPage extends HookConsumerWidget {
   const LandingPage({Key? key}) : super(key: key);
@@ -28,8 +27,9 @@ class LandingPage extends HookConsumerWidget {
     ref.listen<AuthState>(authProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
         if (next.user != UserModel.init()) {
-          Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (_) => const PersonalDetailsScreen()));
+          context.router.navigate(
+            const PersonalDetailsRoute(),
+          );
         } else if (next.failure != CleanFailure.none()) {
           next.failure.showDialogue(context);
         }

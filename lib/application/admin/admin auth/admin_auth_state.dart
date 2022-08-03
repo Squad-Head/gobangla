@@ -1,10 +1,8 @@
-import 'dart:convert';
-
 import 'package:clean_api/clean_api.dart';
 import 'package:equatable/equatable.dart';
 
 import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
-import 'package:tourist_booking/domain/admin/user/admin_register_model.dart';
+import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 
 class AdminAuthState extends Equatable {
   final CleanFailure failure;
@@ -36,7 +34,7 @@ class AdminAuthState extends Equatable {
       failure: CleanFailure.none(),
       loading: false,
       user: AdminUserModel.empty(),
-      userList: []);
+      userList: const []);
 
   @override
   List<Object> get props => [failure, loading, user, userList];

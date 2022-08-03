@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class UserListModel extends Equatable {
+  final String id;
   final bool hasAccess;
   final String fullName;
   final String password;
@@ -23,6 +24,7 @@ class UserListModel extends Equatable {
   final String avater;
   final String cloudinaryId;
   const UserListModel({
+    required this.id,
     required this.hasAccess,
     required this.fullName,
     required this.password,
@@ -45,6 +47,7 @@ class UserListModel extends Equatable {
   });
 
   UserListModel copyWith({
+    String? id,
     bool? hasAccess,
     String? fullName,
     String? password,
@@ -66,6 +69,7 @@ class UserListModel extends Equatable {
     String? cloudinaryId,
   }) {
     return UserListModel(
+      id: id ?? this.id,
       hasAccess: hasAccess ?? this.hasAccess,
       fullName: fullName ?? this.fullName,
       password: password ?? this.password,
@@ -94,6 +98,7 @@ class UserListModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      'id': id,
       'hasAccess': hasAccess,
       'fullName': fullName,
       'password': password,
@@ -116,29 +121,9 @@ class UserListModel extends Equatable {
     };
   }
 
-  factory UserListModel.init() => const UserListModel(
-      hasAccess: false,
-      fullName: '',
-      password: '',
-      nidNo: '',
-      phoneNo: '',
-      fathersName: '',
-      mothersName: '',
-      permanentAddress: '',
-      presentAddress: '',
-      recomandationGiverName: '',
-      recomandationGiverAddress: '',
-      recomandationGiverMobileNo: '',
-      beachManagementCommiteeId: '',
-      touristCommiteeId: '',
-      validityDate: '',
-      service: '',
-      details: '',
-      avater: '',
-      cloudinaryId: '');
-
   factory UserListModel.fromMap(Map<String, dynamic> map) {
     return UserListModel(
+      id: map['_id'] ?? '',
       hasAccess: map['hasAccess'] ?? false,
       fullName: map['fullName'] ?? '',
       password: map['password'] ?? '',
@@ -168,12 +153,13 @@ class UserListModel extends Equatable {
 
   @override
   String toString() {
-    return 'AdminRegisterModel(hasAccess: $hasAccess, fullName: $fullName, password: $password, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, avater: $avater, cloudinaryId: $cloudinaryId)';
+    return 'UserListModel(id: $id, hasAccess: $hasAccess, fullName: $fullName, password: $password, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, avater: $avater, cloudinaryId: $cloudinaryId)';
   }
 
   @override
   List<Object> get props {
     return [
+      id,
       hasAccess,
       fullName,
       password,

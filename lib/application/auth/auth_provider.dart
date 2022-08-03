@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clean_api/clean_api.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
@@ -61,5 +59,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
             ),
         (r) => state.copyWith(
             loading: false, user: r, failure: CleanFailure.none()));
+  }
+
+  logout() async {
+    await authRepo.logout();
+
+    state = AuthState.init();
   }
 }

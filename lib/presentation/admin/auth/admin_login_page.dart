@@ -26,9 +26,8 @@ class AdminLoginPage extends HookConsumerWidget {
     ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
         if (next.user != AdminUserModel.empty()) {
-          context.router.pushAndPopUntil(
+          context.router.navigate(
             const AdminPanelRoute(),
-            predicate: (route) => false,
           );
           // Navigator.pushReplacement(context,
           //     MaterialPageRoute(builder: (_) => const PersonalDetailsScreen()));
@@ -94,7 +93,7 @@ class AdminLoginPage extends HookConsumerWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text("Email Address or Mobile Number"),
+                            const Text("Mobile Number"),
                             SizedBox(
                               width: 500.w,
                               child: TextField(

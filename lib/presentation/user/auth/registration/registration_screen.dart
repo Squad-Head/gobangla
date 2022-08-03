@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:clean_api/clean_api.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -9,6 +10,9 @@ import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
 import 'package:tourist_booking/presentation/auth/widgets/custom_textfield.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
+import 'package:tourist_booking/presentation/router/router.gr.dart';
+
+import 'custom_dropdown.dart';
 
 class RegistrationScreen extends HookConsumerWidget {
   const RegistrationScreen({Key? key}) : super(key: key);
@@ -35,10 +39,9 @@ class RegistrationScreen extends HookConsumerWidget {
     ref.listen<AuthState>(authProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
         if (next.user != UserModel.init()) {
-          Navigator.pushAndRemoveUntil(
-              context,
-              MaterialPageRoute(builder: (_) => const PersonalDetailsScreen()),
-              (route) => false);
+          context.router.navigate(
+            const PersonalDetailsRoute(),
+          );
         } else if (next.failure != CleanFailure.none()) {
           next.failure.showDialogue(context);
         }
@@ -195,16 +198,21 @@ class RegistrationScreen extends HookConsumerWidget {
                   controller: beachIdController,
                   title: 'ID card number (Issued by Beach management committe)',
                   icon: Icons.file_present),
-              CustomTextField(
+              // CustomTextField(
+              //     controller: serviceController,
+              //     title: 'Service type',
+              //     icon: CupertinoIcons.bag),
+              CustomDropdown(
                   controller: serviceController,
-                  title: 'Service type',
-                  icon: CupertinoIcons.bag),
-              // CustomDropdown(
-              //     controller: proController,
-              //     //controller: professionController,
-              //     title: 'Join my coxs bazar as a',
-              //     icon: CupertinoIcons.bag,
-              //     items: const ['Photographer', 'Beach bike', 'Hotel']),
+                  //controller: professionController,
+                  title: 'Join my coxs bazar as a',
+                  icon: CupertinoIcons.bag,
+                  items: const [
+                    'Photographer',
+                    'Beach bike',
+                    'Hotel',
+                    'Local Guide'
+                  ]),
               CustomTextField(
                   controller: policeIdController,
                   title: 'ID card number (Issued by tourist police)',

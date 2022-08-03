@@ -1,28 +1,17 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
-import 'package:tourist_booking/application/auth/auth_state.dart';
-import 'package:tourist_booking/domain/auth/user_model.dart';
+import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
-import 'package:tourist_booking/presentation/router/router.gr.dart';
 
-class PersonalDetailsScreen extends HookConsumerWidget {
-  const PersonalDetailsScreen({Key? key}) : super(key: key);
+class UserDetailsScreen extends HookConsumerWidget {
+  final UserListModel user;
+  const UserDetailsScreen({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    final state = ref.watch(authProvider);
-    ref.listen<AuthState>(authProvider, (previous, next) async {
-      if (next.user == UserModel.init()) {
-        context.router.navigate(
-          const LandingRoute(),
-        );
-      }
-    });
-
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -30,7 +19,6 @@ class PersonalDetailsScreen extends HookConsumerWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              if (state.loading) const LinearProgressIndicator(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -63,13 +51,12 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                               children: [
                                 CircleAvatar(
                                     radius: 80.w,
-                                    backgroundImage:
-                                        state.user.avater.isNotEmpty
-                                            ? NetworkImage(state.user.avater)
-                                            : null),
+                                    backgroundImage: user.avater.isNotEmpty
+                                        ? NetworkImage(user.avater)
+                                        : null),
                                 SizedBox(height: 20.h),
                                 Text(
-                                  state.user.fullName,
+                                  user.fullName,
                                   //"User Name",
                                   style: TextStyle(
                                       fontSize: 16.sp,
@@ -82,25 +69,64 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         const Divider(),
                         SizedBox(height: 40.h),
-                        InkWell(
-                          onTap: () {
-                            ref.read(authProvider.notifier).logout();
-                          },
-                          child: Row(
-                            children: [
-                              const Icon(
-                                Icons.logout,
-                                color: Colors.grey,
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.people,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 20.w),
+                            Text(
+                              "Personal details",
+                              style: TextStyle(
+                                fontSize: 14.sp,
                               ),
-                              const SizedBox(width: 20),
-                              Text(
-                                "Logout",
-                                style: TextStyle(
-                                  fontSize: 14.sp,
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.notifications,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(width: 20.w),
+                            Text(
+                              "Notification",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                              ),
+                            ),
+                            SizedBox(width: 20.w),
+                            Container(
+                              height: 20.h,
+                              width: 20.w,
+                              color: const Color.fromARGB(70, 255, 235, 59),
+                              child: Center(
+                                child: Text(
+                                  "26",
+                                  style: TextStyle(fontSize: 10.sp),
                                 ),
-                              )
-                            ],
-                          ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 20.h),
+                        Row(
+                          children: [
+                            const Icon(
+                              Icons.logout,
+                              color: Colors.grey,
+                            ),
+                            const SizedBox(width: 20),
+                            Text(
+                              "Logout",
+                              style: TextStyle(
+                                fontSize: 14.sp,
+                              ),
+                            )
+                          ],
                         ),
                         SizedBox(height: 20.h),
                       ],
@@ -120,7 +146,7 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         PersonalInfo(
                           title: 'Full name',
-                          value: state.user.fullName,
+                          value: user.fullName,
                           onPress: () {
                             // showDialog(
                             //     context: context,
@@ -132,19 +158,16 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                             // }
                           },
                         ),
+                        PersonalInfo(title: 'NID number', value: user.nidNo),
                         PersonalInfo(
-                            title: 'NID number', value: state.user.nidNo),
+                            title: 'Fathers name', value: user.fathersName),
                         PersonalInfo(
-                            title: 'Fathers name',
-                            value: state.user.fathersName),
+                            title: 'Mothers name', value: user.mothersName),
                         PersonalInfo(
-                            title: 'Mothers name',
-                            value: state.user.mothersName),
-                        PersonalInfo(
-                            title: 'Mobile number', value: state.user.phoneNo),
+                            title: 'Mobile number', value: user.phoneNo),
                         PersonalInfo(
                             title: 'Permanent address',
-                            value: state.user.permanentAddress),
+                            value: user.permanentAddress),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -154,11 +177,10 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                           ),
                         ),
                         PersonalInfo(
-                            title: 'Name',
-                            value: state.user.recomandationGiverName),
+                            title: 'Name', value: user.recomandationGiverName),
                         PersonalInfo(
                             title: 'Phone number',
-                            value: state.user.recomandationGiverMobileNo),
+                            value: user.recomandationGiverMobileNo),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -170,9 +192,8 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                         PersonalInfo(
                             title:
                                 'Id number (Issued by beach management committee)',
-                            value: state.user.beachManagementCommiteeId),
-                        PersonalInfo(
-                            title: 'Join as a', value: state.user.service),
+                            value: user.beachManagementCommiteeId),
+                        PersonalInfo(title: 'Join as a', value: user.service),
                       ],
                     ),
                   ),

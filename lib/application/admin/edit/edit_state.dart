@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:clean_api/clean_api.dart';
 import 'package:equatable/equatable.dart';
 

@@ -47,4 +47,23 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
         (r) => state.copyWith(
             loading: false, user: r, failure: CleanFailure.none()));
   }
+
+  deleteUser(String userId) async {
+    state = state.copyWith(loading: true);
+    final data = await repo.deleteUser(userId);
+    Logger.i(data);
+    data.match((l) {
+      state = state.copyWith(
+        loading: false,
+      );
+    }, () {
+      getUserData();
+    });
+  }
+
+  logout() async {
+    await repo.logout();
+
+    state = AdminAuthState.init();
+  }
 }

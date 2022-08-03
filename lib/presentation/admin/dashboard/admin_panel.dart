@@ -1,9 +1,13 @@
+import 'package:auto_route/auto_route.dart';
+import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
-import 'package:tourist_booking/presentation/personal_details.dart';
+import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
+import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
+import 'package:tourist_booking/presentation/router/router.gr.dart';
 
 class AdminPanelPage extends HookConsumerWidget {
   const AdminPanelPage({super.key});
@@ -19,140 +23,58 @@ class AdminPanelPage extends HookConsumerWidget {
       return null;
     }, []);
 
+    ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
+      if (next.user == AdminUserModel.empty()) {
+        context.router.navigate(
+          const LandingRoute(),
+        );
+      }
+    });
+
     //ref.read(userProvider.notifier).usermodel();
     final state = ref.watch(adminAuthProvider);
 
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: Image.asset(
+          'assets/police_logo.png',
+          height: 40,
+        ),
+        actions: [
+          if (state.loading)
+            const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                child: AspectRatio(
+                    aspectRatio: 1, child: CircularProgressIndicator())),
+          IconButton(
+              onPressed: () {
+                ref.read(adminAuthProvider.notifier).logout();
+              },
+              icon: const Icon(
+                Icons.logout,
+                color: Colors.purple,
+              )),
+          IconButton(
+              onPressed: () {
+                ref.read(adminAuthProvider.notifier).getUserData();
+              },
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.purple,
+              ))
+        ],
+        elevation: 0,
+        centerTitle: false,
+        titleTextStyle:
+            const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+        title: const Text('GoBangla Admin'),
+      ),
       body: SingleChildScrollView(
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 30.w, vertical: 10.h),
           child: Column(
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      Image.asset('assets/police_logo.png'),
-                      SizedBox(width: 10.w),
-                      Text(
-                        'Coxs Bazar',
-                        style: TextStyle(fontSize: 14.sp),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Icon(
-                        Icons.search,
-                        size: 15.sp,
-                        color: const Color(0xFFB3B3C5),
-                      ),
-                      SizedBox(width: 15.w),
-                      Icon(
-                        Icons.notifications,
-                        size: 15.sp,
-                        color: const Color(0xFFB3B3C5),
-                      ),
-                      SizedBox(width: 15.w),
-                      Icon(
-                        Icons.settings,
-                        size: 15.sp,
-                        color: const Color(0xFFB3B3C5),
-                      ),
-                      SizedBox(width: 40.w),
-                      Text(
-                        'Name',
-                        style: TextStyle(fontSize: 15.sp),
-                      ),
-                      SizedBox(width: 8.w),
-                      CircleAvatar(
-                        radius: 18.r,
-                        backgroundImage: const NetworkImage(
-                            'https://images.unsplash.com/photo-1659332589233-3637f89be936?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80'),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 10.h),
-              Container(
-                height: 1.h,
-                color: const Color(0xFFB3B3C5).withOpacity(0.5),
-              ),
-              SizedBox(height: 20.h),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Regions',
-                    style: TextStyle(
-                      fontSize: 20.sp,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          color: const Color(0xFF8791FC),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.add,
-                                size: 14.sp,
-                                color: const Color(0xFFFFFFFF),
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                'Add new',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xFFFFFFFF),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(width: 10.w),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          padding: const EdgeInsets.all(5),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFFFFFFF),
-                            border: Border.all(
-                              color: const Color(0xFF8791FC),
-                              width: 1.w,
-                            ),
-                          ),
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.download,
-                                size: 14.sp,
-                                color: const Color(0xFF8791FC),
-                              ),
-                              SizedBox(width: 8.w),
-                              Text(
-                                'Export',
-                                style: TextStyle(
-                                  fontSize: 14.sp,
-                                  color: const Color(0xFF8791FC),
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 20.h),
               Container(
                 height: 1.h,
                 color: const Color(0xFFB3B3C5).withOpacity(0.5),
@@ -170,47 +92,47 @@ class AdminPanelPage extends HookConsumerWidget {
                             'Name',
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFFC2C7FD),
+                              color: Colors.purple,
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 250.w,
                           child: Text(
-                            'Date',
+                            'NID',
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFFC2C7FD),
+                              color: Colors.purple,
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 150.w,
                           child: Text(
-                            'Type',
+                            'Service Type',
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFFC2C7FD),
+                              color: Colors.purple,
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 280.w,
                           child: Text(
-                            'Email',
+                            'Phone',
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFFC2C7FD),
+                              color: Colors.purple,
                             ),
                           ),
                         ),
                         SizedBox(
                           width: 150.w,
                           child: Text(
-                            'Password',
+                            'Beach management\ncommittee id',
                             style: TextStyle(
                               fontSize: 13.sp,
-                              color: const Color(0xFFC2C7FD),
+                              color: Colors.purple,
                             ),
                           ),
                         ),
@@ -220,94 +142,108 @@ class AdminPanelPage extends HookConsumerWidget {
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemBuilder: (context, index) => Row(
-                        children: [
-                          SizedBox(
-                            width: 200.w,
-                            child: Text(
-                              state.userList[index].fullName,
-
-                              // 'Kousik Ambani',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF505062),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 250.w,
-                            child: Text(
-                              state.userList[index].validityDate,
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF505062),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 150.w,
-                            child: Text(
-                              'Coles',
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF505062),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 280.w,
-                            child: Text(
-                              state.userList[index].phoneNo,
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF505062),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 150.w,
-                            child: Text(
-                              state.userList[index].password,
-                              style: TextStyle(
-                                fontSize: 13.sp,
-                                color: const Color(0xFF505062),
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 70.w,
-                            child: PopupMenuButton(
-                              icon: const Icon(Icons.more_horiz),
-                              onSelected: (index) {
-                                if (index == 1) {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: (context) =>
-                                          const PersonalDetailsScreen()));
-                                }
-                              },
-                              itemBuilder: (context) => [
-                                const PopupMenuItem(
-                                  value: 1,
-                                  child: Text(
-                                    "Info",
+                      itemBuilder: (context, index) {
+                        final user = state.userList[index];
+                        return InkWell(
+                          onTap: () {
+                            context.router.push(UserDetailsRoute(user: user));
+                          },
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 200.w,
+                                child: Text(
+                                  user.fullName,
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF505062),
                                   ),
                                 ),
-                                const PopupMenuItem(
-                                  value: 2,
-                                  child: Text("Edit"),
-                                ),
-                                const PopupMenuItem(
-                                  value: 3,
-                                  child: Text(
-                                    "Delete",
-                                    style: TextStyle(color: Colors.red),
+                              ),
+                              SizedBox(
+                                width: 250.w,
+                                child: Text(
+                                  user.nidNo,
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF505062),
                                   ),
-                                )
-                              ],
-                            ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 150.w,
+                                child: Text(
+                                  user.service,
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF505062),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 280.w,
+                                child: Text(
+                                  user.phoneNo,
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF505062),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 150.w,
+                                child: Text(
+                                  state.userList[index]
+                                      .beachManagementCommiteeId,
+                                  style: TextStyle(
+                                    fontSize: 13.sp,
+                                    color: const Color(0xFF505062),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: 70.w,
+                                child: PopupMenuButton(
+                                  icon: const Icon(Icons.more_horiz),
+                                  onSelected: (value) {
+                                    Logger.i(value);
+                                    // if (value == 1) {
+                                    //   Navigator.of(context).push(
+                                    //       MaterialPageRoute(
+                                    //           builder: (context) =>
+                                    //               const PersonalDetailsScreen()));
+                                    // }
+                                    if (value == 3) {
+                                      ref
+                                          .read(adminAuthProvider.notifier)
+                                          .deleteUser(user.id);
+                                    }
+                                  },
+                                  itemBuilder: (context) => [
+                                    // const PopupMenuItem(
+                                    //   value: 1,
+                                    //   child: Text(
+                                    //     "Info",
+                                    //   ),
+                                    // ),
+                                    // const PopupMenuItem(
+                                    //   value: 2,
+                                    //   child: Text("Edit"),
+                                    // ),
+                                    const PopupMenuItem(
+                                      value: 3,
+                                      child: Text(
+                                        "Delete",
+                                        style: TextStyle(color: Colors.red),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      },
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10),
                       itemCount: state.userList.length,

@@ -3,7 +3,7 @@ import 'package:clean_api/clean_api.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
-import 'package:tourist_booking/domain/admin/user/admin_register_model.dart';
+import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 
 class AdminAuthRepo extends IAdminAuthRepo {
   final cleanApi = CleanApi.instance;
@@ -15,7 +15,7 @@ class AdminAuthRepo extends IAdminAuthRepo {
         withToken: false,
         showLogs: true,
         fromData: (data) {
-          final json = data!;
+          final json = data;
           try {
             return json['token'] as String;
           } catch (e) {
@@ -62,11 +62,28 @@ class AdminAuthRepo extends IAdminAuthRepo {
     try {
       final prefs = await SharedPreferences.getInstance();
       final r = prefs.getString('admin-token');
+      Logger.i('token $r');
       cleanApi.setToken({"Authorization": "Bearer $r"});
       return await getAdminUserInfo();
     } catch (e) {
       return left(
           CleanFailure(tag: 'Initial login check', error: e.toString()));
     }
+  }
+
+  @override
+  Future<Option<CleanFailure>> deleteUser(String userId) async {
+    final data = await cleanApi.delete(
+        fromData: (json) => unit,
+        endPoint: 'user/delete-user-by-admin?params=$userId');
+
+    return data.fold((l) => some(l), (r) => none());
+  }
+
+  @override
+  Future logout() async {
+    cleanApi.setToken({'Authorization': ''});
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }
