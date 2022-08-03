@@ -14,8 +14,8 @@ class AdminLoginPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
-    final userController = useTextEditingController(text: 'ambani');
-    final passwordController = useTextEditingController(text: '5792431086');
+    final userController = useTextEditingController();
+    final passwordController = useTextEditingController();
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 100), () async {
         ref.read(adminAuthProvider.notifier).tryLogin();
