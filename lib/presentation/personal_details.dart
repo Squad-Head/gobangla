@@ -3,11 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tourist_booking/application/admin/edit/edit_auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
-
-import 'admin/user_info_edit/fullname_edit_dialog.dart';
 
 class PersonalDetailsScreen extends HookConsumerWidget {
   const PersonalDetailsScreen({Key? key}) : super(key: key);

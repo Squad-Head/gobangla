@@ -49,9 +49,9 @@ class AuthRepo extends IAuthRepo {
           try {
             return json['token'] as String;
           } catch (e) {
-            if (json['errors'] != null && (json['errors'] as List).isNotEmpty) {
-              final error = (json['errors'] as List).first;
-              throw error['message'];
+            if (json['success'] == false) {
+              final error = json['message'];
+              throw error;
             } else {
               rethrow;
             }

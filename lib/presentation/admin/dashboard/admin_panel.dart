@@ -4,12 +4,11 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
-import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
 
 class AdminPanelPage extends HookConsumerWidget {
-  AdminPanelPage({super.key});
+  const AdminPanelPage({super.key});
 
-  String dropdownValue = '1pc';
+  final String dropdownValue = '1pc';
 
   @override
   Widget build(BuildContext context, ref) {
@@ -34,7 +33,7 @@ class AdminPanelPage extends HookConsumerWidget {
                 children: [
                   Row(
                     children: [
-                      Image.asset('assets/images/logo.png'),
+                      Image.asset('assets/police_logo.png'),
                       SizedBox(width: 10.w),
                       Text(
                         'Coxs Bazar',

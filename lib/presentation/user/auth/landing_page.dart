@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -5,8 +6,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
-import 'package:tourist_booking/presentation/auth/login_dialogue.dart';
-import 'package:tourist_booking/presentation/auth/registration/registration_screen.dart';
+import 'package:tourist_booking/presentation/router/router.gr.dart';
+import 'package:tourist_booking/presentation/user/auth/login_dialogue.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
 
 class LandingPage extends HookConsumerWidget {
@@ -18,7 +19,7 @@ class LandingPage extends HookConsumerWidget {
   @override
   Widget build(BuildContext context, ref) {
     useEffect(() {
-      Future.delayed(const Duration(seconds: 2), () async {
+      Future.delayed(const Duration(milliseconds: 100), () async {
         ref.read(authProvider.notifier).tryLogin();
       });
       return null;
@@ -36,6 +37,14 @@ class LandingPage extends HookConsumerWidget {
     });
     final loading = ref.watch(authProvider.select((value) => value.loading));
     return Scaffold(
+      floatingActionButton: TextButton(
+          onPressed: () {
+            AutoRouter.of(context).push(const AdminLoginRoute());
+          },
+          child: const Text(
+            'Login as admin',
+            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+          )),
       body: Container(
         decoration: const BoxDecoration(
             image: DecorationImage(
@@ -104,8 +113,7 @@ class LandingPage extends HookConsumerWidget {
                           textStyle:
                               const TextStyle(fontWeight: FontWeight.bold)),
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const RegistrationScreen()));
+                        context.router.push(const RegistrationRoute());
                       },
                       child: const Text('Register'))
                 ],

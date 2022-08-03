@@ -11,7 +11,7 @@ class AdminAuthState extends Equatable {
   final bool loading;
   final AdminUserModel user;
   final List<UserListModel> userList;
-  AdminAuthState({
+  const AdminAuthState({
     required this.failure,
     required this.loading,
     required this.user,

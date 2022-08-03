@@ -10,18 +10,17 @@ final adminAuthProvider =
 });
 
 class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
-  IAdminAuthRepo iAdminAuthRepo;
-  AdminAuthNotifier(this.iAdminAuthRepo) : super(AdminAuthState.init());
+  IAdminAuthRepo repo;
+  AdminAuthNotifier(this.repo) : super(AdminAuthState.init());
 
   adminLogin({required String username, required String password}) async {
     state = state.copyWith(loading: true);
-    final data =
-        await iAdminAuthRepo.adminLogIn(username: username, password: password);
+    final data = await repo.adminLogIn(username: username, password: password);
     state = data.fold(
       (l) => state.copyWith(loading: false, failure: l),
       (r) => state.copyWith(
         loading: false,
-        userList: r,
+        user: r,
         failure: CleanFailure.none(),
       ),
     );
@@ -30,10 +29,22 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
 
   getUserData() async {
     state = state.copyWith(loading: true);
-    final data = await iAdminAuthRepo.getUserData();
+    final data = await repo.getUserData();
     state = data.fold(
       (l) => state.copyWith(loading: false, failure: l),
       (r) => state.copyWith(loading: false, userList: r),
     );
+  }
+
+  tryLogin() async {
+    state = state.copyWith(loading: true);
+    final data = await repo.tryLogin();
+
+    state = data.fold(
+        (l) => state.copyWith(
+              loading: false,
+            ),
+        (r) => state.copyWith(
+            loading: false, user: r, failure: CleanFailure.none()));
   }
 }

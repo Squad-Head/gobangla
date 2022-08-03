@@ -47,11 +47,11 @@ class AdminUserModel extends Equatable {
     };
   }
 
-  factory AdminUserModel.empty() => AdminUserModel(
+  factory AdminUserModel.empty() => const AdminUserModel(
       id: '', hasAccess: false, name: '', email: '', username: '', role: '');
   factory AdminUserModel.fromMap(Map<String, dynamic> map) {
     return AdminUserModel(
-      id: map['id'] ?? '',
+      id: map['_id'] ?? '',
       hasAccess: map['hasAccess'] ?? false,
       name: map['name'] ?? '',
       email: map['email'] ?? '',

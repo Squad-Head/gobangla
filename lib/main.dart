@@ -3,33 +3,37 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/presentation/admin/auth/admin_login_page.dart';
-import 'package:tourist_booking/presentation/auth/admin_page/admin_panel.dart';
+import 'package:tourist_booking/presentation/admin/dashboard/admin_panel.dart';
 
-import 'registerPage/landing_page.dart';
+import 'presentation/router/router.gr.dart';
+import 'presentation/user/auth/landing_page.dart';
 
 void main() {
   CleanApi.instance.setup(
     baseUrl: 'https://beach-data.up.railway.app/api/',
   );
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(ProviderScope(child: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  MyApp({Key? key}) : super(key: key);
+
+  final _appRouter = AppRouter();
 
   @override
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       designSize: const Size(1440, 718),
       builder: ((context, child) {
-        return MaterialApp(
+        return MaterialApp.router(
           debugShowCheckedModeBanner: false,
           title: 'Hello Cox',
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
           // home: const ReRoutePage(),
-          home: AdminLoginPage(),
+          routerDelegate: _appRouter.delegate(),
+          routeInformationParser: _appRouter.defaultRouteParser(),
         );
       }),
     );
