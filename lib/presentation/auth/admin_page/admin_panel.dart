@@ -3,6 +3,8 @@ import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
+import 'package:tourist_booking/presentation/personal_details.dart';
+import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
 
 class AdminPanelPage extends HookConsumerWidget {
   AdminPanelPage({super.key});
@@ -278,7 +280,11 @@ class AdminPanelPage extends HookConsumerWidget {
                             child: PopupMenuButton(
                               icon: const Icon(Icons.more_horiz),
                               onSelected: (index) {
-                                if (index == 1) {}
+                                if (index == 1) {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: (context) =>
+                                          const PersonalDetailsScreen()));
+                                }
                               },
                               itemBuilder: (context) => [
                                 const PopupMenuItem(

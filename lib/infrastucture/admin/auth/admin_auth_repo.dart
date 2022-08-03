@@ -5,6 +5,8 @@ import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
 import 'package:tourist_booking/domain/admin/user/admin_register_model.dart';
 
+import '../../../domain/auth/user_model.dart';
+
 class AdminAuthRepo extends IAdminAuthRepo {
   final cleanApi = CleanApi.instance;
 

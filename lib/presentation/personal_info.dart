@@ -4,8 +4,13 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class PersonalInfo extends StatelessWidget {
   final String title;
   final String value;
-  const PersonalInfo({Key? key, required this.title, required this.value})
-      : super(key: key);
+  void Function()? onPress;
+  PersonalInfo({
+    Key? key,
+    required this.title,
+    required this.value,
+    this.onPress,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +41,7 @@ class PersonalInfo extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 primary: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: onPress,
               child: Text("Edit",
                   style: TextStyle(
                     fontSize: 12.sp,

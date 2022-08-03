@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:tourist_booking/application/admin/edit/edit_auth_provider.dart';
+import 'package:tourist_booking/application/auth/auth_provider.dart';
+import 'package:tourist_booking/presentation/personal_info.dart';
 
-class PersonalEditScreeen extends StatelessWidget {
-  const PersonalEditScreeen({Key? key}) : super(key: key);
+import 'admin/user_info_edit/fullname_edit_dialog.dart';
+
+class PersonalDetailsEditScreen extends HookConsumerWidget {
+  const PersonalDetailsEditScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, ref) {
+    final state = ref.watch(authProvider);
+
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -13,6 +23,7 @@ class PersonalEditScreeen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
+              if (state.loading) const LinearProgressIndicator(),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -21,36 +32,43 @@ class PersonalEditScreeen extends StatelessWidget {
                         horizontal: 30, vertical: 30),
                     height: 600.h,
                     width: 300.w,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(20)),
                     child: Column(
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.camera_alt_sharp),
+                              onPressed: () async {
+                                final image = await pickImage();
+                                if (image != null) {
+                                  ref
+                                      .read(authProvider.notifier)
+                                      .uploadProfile(image);
+                                }
+                              },
+                              icon: const Icon(Icons.camera_alt_sharp),
                             ),
                             SizedBox(width: 20.w),
                             Column(
                               children: [
                                 CircleAvatar(
-                                  radius: 26,
-                                  backgroundImage:
-                                      AssetImage("assets/images/a.jpg"),
-                                ),
+                                    radius: 80.w,
+                                    backgroundImage:
+                                        state.user.avater.isNotEmpty
+                                            ? NetworkImage(state.user.avater)
+                                            : null),
                                 SizedBox(height: 20.h),
                                 Text(
-                                  "User Name",
+                                  state.user.fullName,
+                                  //"User Name",
                                   style: TextStyle(
                                       fontSize: 16.sp,
                                       fontWeight: FontWeight.bold),
                                 ),
                               ],
-                            ),
-                            SizedBox(width: 20.w),
-                            IconButton(
-                              onPressed: () {},
-                              icon: Icon(Icons.edit),
                             ),
                           ],
                         ),
@@ -59,7 +77,7 @@ class PersonalEditScreeen extends StatelessWidget {
                         SizedBox(height: 40.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.people,
                               color: Colors.grey,
                             ),
@@ -75,7 +93,7 @@ class PersonalEditScreeen extends StatelessWidget {
                         SizedBox(height: 20.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.notifications,
                               color: Colors.grey,
                             ),
@@ -90,7 +108,7 @@ class PersonalEditScreeen extends StatelessWidget {
                             Container(
                               height: 20.h,
                               width: 20.w,
-                              color: Color.fromARGB(70, 255, 235, 59),
+                              color: const Color.fromARGB(70, 255, 235, 59),
                               child: Center(
                                 child: Text(
                                   "26",
@@ -103,11 +121,11 @@ class PersonalEditScreeen extends StatelessWidget {
                         SizedBox(height: 20.h),
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               Icons.logout,
                               color: Colors.grey,
                             ),
-                            SizedBox(width: 20),
+                            const SizedBox(width: 20),
                             Text(
                               "Logout",
                               style: TextStyle(
@@ -119,9 +137,6 @@ class PersonalEditScreeen extends StatelessWidget {
                         SizedBox(height: 20.h),
                       ],
                     ),
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20)),
                   ),
                   SizedBox(width: 40.w),
                   Expanded(
@@ -134,95 +149,62 @@ class PersonalEditScreeen extends StatelessWidget {
                           style: TextStyle(
                               fontSize: 30.sp, fontWeight: FontWeight.bold),
                         ),
-                        SizedBox(height: 20),
-                        Text(
-                          "Full Name",
-                          style: TextStyle(
-                            fontSize: 16.sp,
-                          ),
-                        ),
-                        SizedBox(height: 30),
-                        Container(
-                          padding: EdgeInsets.only(left: 20),
-                          height: 50.h,
-                          width: 900.w,
-                          child: TextFormField(
-                            decoration: InputDecoration(
-                                border: OutlineInputBorder(
-                                    borderSide: BorderSide.none),
-                                hintText: "My name is user name"),
-                          ),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10),
-                              color: Colors.white),
-                        ),
-                        SizedBox(height: 15.h),
-                        Row(
-                          children: [
-                            ElevatedButton(
-                              onPressed: () {},
-                              child: Text("save",
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                            const SizedBox(width: 20),
-                            ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                primary: Colors.white,
-                              ),
-                              onPressed: () {},
-                              child: Text("Cencel",
-                                  style: TextStyle(
-                                    fontSize: 12.sp,
-                                    color: Colors.black,
-                                  )),
-                            ),
-                          ],
-                        ),
                         SizedBox(height: 40.h),
-                        ListView.separated(
-                            shrinkWrap: true,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemBuilder: (context, index) {
-                              return Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                mainAxisSize: MainAxisSize.max,
-                                children: [
-                                  Row(
-                                    children: [
-                                      SizedBox(
-                                        width: 180,
-                                        child: Text("Full Name",
-                                            style: TextStyle(
-                                              fontSize: 16.sp,
-                                            )),
-                                      ),
-                                      const SizedBox(width: 5),
-                                      Text("User Name",
-                                          style: TextStyle(
-                                            fontSize: 16.sp,
-                                          )),
-                                    ],
-                                  ),
-                                  ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                      primary: Colors.white,
-                                    ),
-                                    onPressed: () {},
-                                    child: Text("Edit",
-                                        style: TextStyle(
-                                          fontSize: 12.sp,
-                                          color: Colors.black,
-                                        )),
-                                  ),
-                                ],
-                              );
-                            },
-                            separatorBuilder: (context, index) => Divider(),
-                            itemCount: 10)
+                        PersonalInfo(
+                          title: 'Full name',
+                          value: state.user.fullName,
+                          onPress: () {
+                            // showDialog(
+                            //     context: context,
+                            //     builder: (context) => ShowEditDialog(about: ,));
+                            // if (editController.text.isNotEmpty) {
+                            //   ref
+                            //       .read(editProvider.notifier)
+                            //       .editFullName(editController.text);
+                            // }
+                          },
+                        ),
+                        PersonalInfo(
+                            title: 'NID number', value: state.user.nidNo),
+                        PersonalInfo(
+                            title: 'Fathers name',
+                            value: state.user.fathersName),
+                        PersonalInfo(
+                            title: 'Mothers name',
+                            value: state.user.mothersName),
+                        PersonalInfo(
+                            title: 'Mobile number', value: state.user.phoneNo),
+                        PersonalInfo(
+                            title: 'Permanent address',
+                            value: state.user.permanentAddress),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Referred by',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        PersonalInfo(
+                            title: 'Name',
+                            value: state.user.recomandationGiverName),
+                        PersonalInfo(
+                            title: 'Phone number',
+                            value: state.user.recomandationGiverMobileNo),
+                        const Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                          child: Text(
+                            'Other info',
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                        ),
+                        PersonalInfo(
+                            title:
+                                'Id number (Issued by beach management committee)',
+                            value: state.user.beachManagementCommiteeId),
+                        PersonalInfo(
+                            title: 'Join as a', value: state.user.service),
                       ],
                     ),
                   ),
@@ -233,5 +215,11 @@ class PersonalEditScreeen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future<XFile?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    // Pick an image
+    return await picker.pickImage(source: ImageSource.gallery);
   }
 }
