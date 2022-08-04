@@ -13,7 +13,7 @@ class DashBoardPage extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(20),
               width: 220.w,
-              height: 1100.h,
+              height: 1200.h,
               color: const Color(0xFF222D3B),
               child: Column(
                 children: [
@@ -106,7 +106,7 @@ class DashBoardPage extends StatelessWidget {
               ),
             ),
             Container(
-              height: 1100.h,
+              height: 1200.h,
               width: 1220.w,
               color: const Color(0xFFF2F7FB),
               child: Column(
