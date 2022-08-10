@@ -2,15 +2,16 @@ import 'package:clean_api/clean_api.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
+import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/infrastucture/admin/auth/admin_auth_repo.dart';
 
 final adminAuthProvider =
     StateNotifierProvider<AdminAuthNotifier, AdminAuthState>((ref) {
-  return AdminAuthNotifier(AdminAuthRepo());
+  return AdminAuthNotifier(AdminRepo());
 });
 
 class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
-  IAdminAuthRepo repo;
+  IAdminRepo repo;
   AdminAuthNotifier(this.repo) : super(AdminAuthState.init());
 
   adminLogin({required String username, required String password}) async {
@@ -34,6 +35,18 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
       (l) => state.copyWith(loading: false, failure: l),
       (r) => state.copyWith(loading: false, userList: r),
     );
+  }
+
+  addMember(RegistrationModel body) async {
+    state = state.copyWith(loading: true);
+    final data = await repo.addMember(body);
+    state = data.match(
+      (l) => state.copyWith(loading: false, failure: l),
+      () => state.copyWith(
+        loading: false,
+      ),
+    );
+    getUserData();
   }
 
   tryLogin() async {

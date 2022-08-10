@@ -80,6 +80,11 @@ class AdminPanelPage extends HookConsumerWidget {
                 color: const Color(0xFFB3B3C5).withOpacity(0.5),
               ),
               SizedBox(height: 30.h),
+              ElevatedButton(
+                  onPressed: () {
+                    context.pushRoute(const AddMemberRoute());
+                  },
+                  child: const Text('Add Member')),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 130.w),
                 child: Column(
