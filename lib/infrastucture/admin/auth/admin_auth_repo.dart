@@ -94,7 +94,7 @@ class AdminRepo extends IAdminRepo {
         showLogs: true,
         fromData: (json) => json,
         body: body.toMap(),
-        endPoint: 'user/add-new-user-by-admin ');
+        endPoint: 'user/add-new-user-by-admin');
 
     return data.fold((l) => some(l), (r) => none());
   }

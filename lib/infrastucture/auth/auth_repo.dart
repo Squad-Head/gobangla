@@ -70,8 +70,13 @@ class AuthRepo extends IAuthRepo {
     try {
       final prefs = await SharedPreferences.getInstance();
       final r = prefs.getString('token');
-      cleanApi.setToken({"Authorization": "Bearer $r"});
-      return await getUserInfo();
+      if (r != null) {
+        cleanApi.setToken({"Authorization": "Bearer $r"});
+        return await getUserInfo();
+      } else {
+        return left(const CleanFailure(
+            tag: 'Initial login check', error: 'user not logged in'));
+      }
     } catch (e) {
       return left(
           CleanFailure(tag: 'Initial login check', error: e.toString()));

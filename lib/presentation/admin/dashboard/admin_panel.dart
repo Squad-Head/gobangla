@@ -42,11 +42,33 @@ class AdminPanelPage extends HookConsumerWidget {
           height: 40,
         ),
         actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 5),
+            child: OutlinedButton(
+                style: OutlinedButton.styleFrom(
+                    primary: Colors.purple,
+                    visualDensity: VisualDensity.compact),
+                onPressed: () {
+                  context.pushRoute(const AddMemberRoute());
+                },
+                child: const Text('Add Member')),
+          ),
           if (state.loading)
             const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
                 child: AspectRatio(
                     aspectRatio: 1, child: CircularProgressIndicator())),
+          IconButton(
+              onPressed: () {
+                ref.read(adminAuthProvider.notifier).getUserData();
+              },
+              icon: const Icon(
+                Icons.refresh,
+                color: Colors.purple,
+              )),
+          const SizedBox(
+            width: 50,
+          ),
           IconButton(
               onPressed: () {
                 ref.read(adminAuthProvider.notifier).logout();
@@ -55,14 +77,6 @@ class AdminPanelPage extends HookConsumerWidget {
                 Icons.logout,
                 color: Colors.purple,
               )),
-          IconButton(
-              onPressed: () {
-                ref.read(adminAuthProvider.notifier).getUserData();
-              },
-              icon: const Icon(
-                Icons.refresh,
-                color: Colors.purple,
-              ))
         ],
         elevation: 0,
         centerTitle: false,
@@ -80,11 +94,6 @@ class AdminPanelPage extends HookConsumerWidget {
                 color: const Color(0xFFB3B3C5).withOpacity(0.5),
               ),
               SizedBox(height: 30.h),
-              ElevatedButton(
-                  onPressed: () {
-                    context.pushRoute(const AddMemberRoute());
-                  },
-                  child: const Text('Add Member')),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 130.w),
                 child: Column(

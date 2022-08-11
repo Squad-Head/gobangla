@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
+import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
@@ -35,7 +36,7 @@ class AddMemberScreen extends HookConsumerWidget {
     final policeIdController = useTextEditingController();
 
     final passwordController = useTextEditingController();
-    ref.listen<AuthState>(authProvider, (previous, next) async {
+    ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
         if (next.user != UserModel.init()) {
           context.popRoute();
@@ -277,7 +278,7 @@ class AddMemberScreen extends HookConsumerWidget {
                                 Logger.i('fields needed');
                               }
                             },
-                            child: const Text('Registration')),
+                            child: const Text('Add member')),
                       ),
               ),
               const SizedBox(

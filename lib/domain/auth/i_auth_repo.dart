@@ -13,7 +13,9 @@ abstract class IAuthRepo {
       {required String phoneNo, required String password});
 
   Future<Either<CleanFailure, UserModel>> tryLogin();
+
+  Future<Either<CleanFailure, UserModel>> getUserInfo();
+
   Future logout();
   Future<void> uploadImage(XFile image, String userId);
-  Future<Either<CleanFailure, UserModel>> getUserInfo();
 }
