@@ -1,12 +1,10 @@
 import 'package:clean_api/clean_api.dart';
 import 'package:http/http.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:mime_type/mime_type.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/domain/auth/i_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
-import 'package:path/path.dart';
 
 class AuthRepo extends IAuthRepo {
   final cleanApi = CleanApi.instance;
@@ -49,9 +47,9 @@ class AuthRepo extends IAuthRepo {
           try {
             return json['token'] as String;
           } catch (e) {
-            if (json['errors'] != null && (json['errors'] as List).isNotEmpty) {
-              final error = (json['errors'] as List).first;
-              throw error['message'];
+            if (json['success'] == false) {
+              final error = json['message'];
+              throw error;
             } else {
               rethrow;
             }
@@ -115,5 +113,52 @@ class AuthRepo extends IAuthRepo {
     } catch (e) {
       Logger.e(e);
     }
+  }
+
+  @override
+  Future<Either<CleanFailure, UserModel>> addNewAdmin(
+      {required bool hasAccess,
+      required String name,
+      required String username,
+      required String email,
+      required String password,
+      required String role}) async {
+    final prefs = await SharedPreferences.getInstance();
+    final userData = await cleanApi.post(
+        showLogs: true,
+        fromData: (json) {
+          Logger.i(json);
+          try {
+            final token = json['token'] as String;
+            prefs.setString('token', token);
+            cleanApi.setToken({"Authorization": "Bearer $token"});
+            return UserModel.fromMap(json['data']);
+          } catch (e) {
+            if (json['errors'] != null && (json['errors'] as List).isNotEmpty) {
+              final error = (json['errors'] as List).first;
+              throw error['message'];
+            } else {
+              rethrow;
+            }
+          }
+        },
+        body: {
+          "hasAccess": hasAccess,
+          "name": name,
+          "username": username,
+          "email": email,
+          "password": password,
+          "role": role
+        },
+        endPoint: 'admin/registration');
+    Logger.i(userData);
+    return userData;
+  }
+
+  @override
+  Future logout() async {
+    cleanApi.setToken({'Authorization': ''});
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.clear();
   }
 }

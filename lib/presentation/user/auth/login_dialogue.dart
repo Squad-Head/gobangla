@@ -62,7 +62,7 @@ class LoginDialogue extends HookConsumerWidget {
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const Text("Email Address or Mobile Number"),
+                        const Text("Mobile Number"),
                         SizedBox(
                           width: 500.w,
                           child: TextField(
