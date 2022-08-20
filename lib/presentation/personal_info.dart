@@ -37,17 +37,6 @@ class PersonalInfo extends StatelessWidget {
                     )),
               ],
             ),
-            // ElevatedButton(
-            //   style: ElevatedButton.styleFrom(
-            //     primary: Colors.white,
-            //   ),
-            //   onPressed: onPress,
-            //   child: Text("Edit",
-            //       style: TextStyle(
-            //         fontSize: 12.sp,
-            //         color: Colors.black,
-            //       )),
-            // ),
           ],
         ),
         const Divider()

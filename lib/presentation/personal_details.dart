@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:auto_route/auto_route.dart';
+import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -6,6 +9,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
+import 'package:tourist_booking/presentation/otp_dialogue.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
 import 'package:tourist_booking/presentation/router/router.gr.dart';
 
@@ -173,6 +177,60 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                             value: state.user.beachManagementCommiteeId),
                         PersonalInfo(
                             title: 'Join as a', value: state.user.service),
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisSize: MainAxisSize.max,
+                              children: [
+                                Row(
+                                  children: [
+                                    SizedBox(
+                                      width: 180,
+                                      child: Text('Account verified',
+                                          style: TextStyle(
+                                            fontSize: 16.sp,
+                                          )),
+                                    ),
+                                    const SizedBox(width: 5),
+                                    Text(
+                                        state.user.phoneVarified ? 'Yes' : 'No',
+                                        style: TextStyle(
+                                            fontSize: 16.sp,
+                                            color: state.user.phoneVarified
+                                                ? Colors.green
+                                                : Colors.red)),
+                                    if (!state.user.phoneVarified)
+                                      const SizedBox(
+                                        width: 10,
+                                      ),
+                                    if (!state.user.phoneVarified)
+                                      OutlinedButton(
+                                          style: OutlinedButton.styleFrom(
+                                              primary: Colors.green),
+                                          onPressed: () async {
+                                            final otp = await sendOtp(
+                                                state.user.phoneNo);
+
+                                            if (otp > 0) {
+                                              showDialog(
+                                                  context: context,
+                                                  builder: (context) =>
+                                                      OtpDialigue(otp: otp));
+                                            } else {
+                                              Logger.e(
+                                                  'Operation failed due to invalid certificate');
+                                            }
+                                          },
+                                          child: const Text('Verify now'))
+                                  ],
+                                ),
+                              ],
+                            ),
+                            const Divider()
+                          ],
+                        )
                       ],
                     ),
                   ),
@@ -185,9 +243,36 @@ class PersonalDetailsScreen extends HookConsumerWidget {
     );
   }
 
+  Future<int> sendOtp(String phone) async {
+    try {
+      final random = Random();
+      final otp = random.nextIntOfDigits(6);
+
+      final data = CleanApi.instance.post(
+          fromData: (json) => json,
+          body: {'receiver': '+88$phone', 'otp': otp},
+          endPoint: 'sms/send-message');
+
+      Logger.i(data);
+      return otp;
+    } catch (e) {
+      Logger.e(e);
+      return -1;
+    }
+  }
+
   Future<XFile?> pickImage() async {
     final ImagePicker picker = ImagePicker();
     // Pick an image
     return await picker.pickImage(source: ImageSource.gallery);
+  }
+}
+
+extension RandomOfDigits on Random {
+  int nextIntOfDigits(int digitCount) {
+    assert(1 <= digitCount && digitCount <= 9);
+    int min = digitCount == 1 ? 0 : pow(10, digitCount - 1) as int;
+    int max = pow(10, digitCount) as int;
+    return min + nextInt(max - min);
   }
 }

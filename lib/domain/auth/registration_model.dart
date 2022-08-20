@@ -21,46 +21,48 @@ class RegistrationModel extends Equatable {
   final String validityDate;
   final String service;
   final String details;
-  const RegistrationModel({
-    required this.hasAccess,
-    required this.fullName,
-    required this.password,
-    required this.nidNo,
-    required this.phoneNo,
-    required this.fathersName,
-    required this.mothersName,
-    required this.permanentAddress,
-    required this.presentAddress,
-    required this.recomandationGiverName,
-    required this.recomandationGiverAddress,
-    required this.recomandationGiverMobileNo,
-    required this.beachManagementCommiteeId,
-    required this.touristCommiteeId,
-    required this.validityDate,
-    required this.service,
-    required this.details,
-  });
+  final bool phoneVarified;
+  const RegistrationModel(
+      {required this.hasAccess,
+      required this.fullName,
+      required this.password,
+      required this.nidNo,
+      required this.phoneNo,
+      required this.fathersName,
+      required this.mothersName,
+      required this.permanentAddress,
+      required this.presentAddress,
+      required this.recomandationGiverName,
+      required this.recomandationGiverAddress,
+      required this.recomandationGiverMobileNo,
+      required this.beachManagementCommiteeId,
+      required this.touristCommiteeId,
+      required this.validityDate,
+      required this.service,
+      required this.details,
+      required this.phoneVarified});
 
-  RegistrationModel copyWith({
-    bool? hasAccess,
-    String? fullName,
-    String? password,
-    String? nidNo,
-    String? phoneNo,
-    String? fathersName,
-    String? mothersName,
-    String? permanentAddress,
-    String? presentAddress,
-    String? recomandationGiverName,
-    String? recomandationGiverAddress,
-    String? recomandationGiverMobileNo,
-    String? beachManagementCommiteeId,
-    String? touristCommiteeId,
-    String? validityDate,
-    String? service,
-    String? details,
-  }) {
+  RegistrationModel copyWith(
+      {bool? hasAccess,
+      String? fullName,
+      String? password,
+      String? nidNo,
+      String? phoneNo,
+      String? fathersName,
+      String? mothersName,
+      String? permanentAddress,
+      String? presentAddress,
+      String? recomandationGiverName,
+      String? recomandationGiverAddress,
+      String? recomandationGiverMobileNo,
+      String? beachManagementCommiteeId,
+      String? touristCommiteeId,
+      String? validityDate,
+      String? service,
+      String? details,
+      bool? phoneVarified}) {
     return RegistrationModel(
+      phoneVarified: phoneVarified ?? this.phoneVarified,
       hasAccess: hasAccess ?? this.hasAccess,
       fullName: fullName ?? this.fullName,
       password: password ?? this.password,
@@ -87,6 +89,7 @@ class RegistrationModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'phoneVarified': phoneVarified,
       'hasAccess': hasAccess,
       'fullName': fullName,
       'password': password,
@@ -109,6 +112,7 @@ class RegistrationModel extends Equatable {
 
   factory RegistrationModel.fromMap(Map<String, dynamic> map) {
     return RegistrationModel(
+      phoneVarified: map['phoneVarified'],
       hasAccess: map['hasAccess'] as bool,
       fullName: map['fullName'] as String,
       password: map['password'] as String,
@@ -140,6 +144,7 @@ class RegistrationModel extends Equatable {
   @override
   List<Object> get props {
     return [
+      phoneVarified,
       hasAccess,
       fullName,
       password,
@@ -161,6 +166,7 @@ class RegistrationModel extends Equatable {
   }
 
   factory RegistrationModel.init() => const RegistrationModel(
+      phoneVarified: false,
       hasAccess: false,
       fullName: '',
       password: '',

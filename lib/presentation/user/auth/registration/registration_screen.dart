@@ -9,7 +9,6 @@ import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
 import 'package:tourist_booking/presentation/auth/widgets/custom_textfield.dart';
-import 'package:tourist_booking/presentation/personal_details.dart';
 import 'package:tourist_booking/presentation/router/router.gr.dart';
 
 import 'custom_dropdown.dart';
@@ -252,6 +251,7 @@ class RegistrationScreen extends HookConsumerWidget {
                                   passwordController.text.isNotEmpty &&
                                   policeIdController.text.isNotEmpty) {
                                 final registrationModel = RegistrationModel(
+                                    phoneVarified: false,
                                     hasAccess: true,
                                     fullName: fullNameController.text,
                                     password: passwordController.text,

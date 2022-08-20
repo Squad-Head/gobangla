@@ -166,4 +166,13 @@ class AuthRepo extends IAuthRepo {
     final prefs = await SharedPreferences.getInstance();
     await prefs.clear();
   }
+
+  @override
+  Future<void> verifyAccount(String userId) async {
+    await cleanApi.post(
+        fromData: (json) => json,
+        showLogs: true,
+        body: {"phoneVarified": false},
+        endPoint: 'user/edit-user-by-user-id');
+  }
 }

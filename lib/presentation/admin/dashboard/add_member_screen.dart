@@ -250,6 +250,7 @@ class AddMemberScreen extends HookConsumerWidget {
                                   passwordController.text.isNotEmpty &&
                                   policeIdController.text.isNotEmpty) {
                                 final registrationModel = RegistrationModel(
+                                    phoneVarified: false,
                                     hasAccess: true,
                                     fullName: fullNameController.text,
                                     password: passwordController.text,

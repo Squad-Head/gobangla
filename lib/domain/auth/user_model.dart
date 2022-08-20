@@ -22,6 +22,7 @@ class UserModel extends Equatable {
   final String createdAt;
   final String updatedAt;
   final String avater;
+  final bool phoneVarified;
   const UserModel({
     required this.id,
     required this.fullName,
@@ -42,30 +43,32 @@ class UserModel extends Equatable {
     required this.createdAt,
     required this.updatedAt,
     required this.avater,
+    required this.phoneVarified,
   });
 
-  UserModel copyWith({
-    String? id,
-    String? fullName,
-    String? nidNo,
-    String? phoneNo,
-    String? fathersName,
-    String? mothersName,
-    String? permanentAddress,
-    String? presentAddress,
-    String? recomandationGiverName,
-    String? recomandationGiverAddress,
-    String? recomandationGiverMobileNo,
-    String? beachManagementCommiteeId,
-    String? touristCommiteeId,
-    String? validityDate,
-    String? service,
-    String? details,
-    String? createdAt,
-    String? updatedAt,
-    String? avater,
-  }) {
+  UserModel copyWith(
+      {String? id,
+      String? fullName,
+      String? nidNo,
+      String? phoneNo,
+      String? fathersName,
+      String? mothersName,
+      String? permanentAddress,
+      String? presentAddress,
+      String? recomandationGiverName,
+      String? recomandationGiverAddress,
+      String? recomandationGiverMobileNo,
+      String? beachManagementCommiteeId,
+      String? touristCommiteeId,
+      String? validityDate,
+      String? service,
+      String? details,
+      String? createdAt,
+      String? updatedAt,
+      String? avater,
+      bool? phoneVarified}) {
     return UserModel(
+      phoneVarified: phoneVarified ?? this.phoneVarified,
       id: id ?? this.id,
       fullName: fullName ?? this.fullName,
       nidNo: nidNo ?? this.nidNo,
@@ -94,6 +97,7 @@ class UserModel extends Equatable {
 
   Map<String, dynamic> toMap() {
     return {
+      'phoneVarified': phoneVarified,
       'id': id,
       'fullName': fullName,
       'nidNo': nidNo,
@@ -118,6 +122,7 @@ class UserModel extends Equatable {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
+      phoneVarified: map['phoneVarified'] ?? false,
       id: map['_id'] ?? '',
       fullName: map['fullName'] ?? '',
       nidNo: map['nidNo'] ?? '',
@@ -170,10 +175,12 @@ class UserModel extends Equatable {
       createdAt,
       updatedAt,
       avater,
+      phoneVarified
     ];
   }
 
   factory UserModel.init() => const UserModel(
+      phoneVarified: false,
       id: '',
       fullName: '',
       nidNo: '',
@@ -196,6 +203,6 @@ class UserModel extends Equatable {
 
   @override
   String toString() {
-    return 'UserModel(id: $id, fullName: $fullName, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, createdAt: $createdAt, updatedAt: $updatedAt, avater: $avater)';
+    return 'UserModel(id: $id, fullName: $fullName, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, createdAt: $createdAt, updatedAt: $updatedAt, avater: $avater, phoneVarified: $phoneVarified)';
   }
 }

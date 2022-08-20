@@ -66,4 +66,12 @@ class AuthNotifier extends StateNotifier<AuthState> {
 
     state = AuthState.init();
   }
+
+  verifyPhone() async {
+    state = state.copyWith(loading: true);
+    // await authRepo.verifyAccount(state.user.phoneNo);
+    Future.delayed(const Duration(seconds: 1));
+    final user = state.user.copyWith(phoneVarified: true);
+    state = state.copyWith(loading: false, user: user);
+  }
 }

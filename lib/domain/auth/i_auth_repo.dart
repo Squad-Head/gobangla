@@ -18,4 +18,5 @@ abstract class IAuthRepo {
 
   Future logout();
   Future<void> uploadImage(XFile image, String userId);
+  Future<void> verifyAccount(String userId);
 }

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
 
@@ -35,17 +34,6 @@ class UserDetailsScreen extends HookConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            IconButton(
-                              onPressed: () async {
-                                final image = await pickImage();
-                                if (image != null) {
-                                  ref
-                                      .read(authProvider.notifier)
-                                      .uploadProfile(image);
-                                }
-                              },
-                              icon: const Icon(Icons.camera_alt_sharp),
-                            ),
                             SizedBox(width: 20.w),
                             Column(
                               children: [
@@ -69,66 +57,6 @@ class UserDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         const Divider(),
                         SizedBox(height: 40.h),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.people,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 20.w),
-                            Text(
-                              "Personal details",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.h),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.notifications,
-                              color: Colors.grey,
-                            ),
-                            SizedBox(width: 20.w),
-                            Text(
-                              "Notification",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                              ),
-                            ),
-                            SizedBox(width: 20.w),
-                            Container(
-                              height: 20.h,
-                              width: 20.w,
-                              color: const Color.fromARGB(70, 255, 235, 59),
-                              child: Center(
-                                child: Text(
-                                  "26",
-                                  style: TextStyle(fontSize: 10.sp),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 20.h),
-                        Row(
-                          children: [
-                            const Icon(
-                              Icons.logout,
-                              color: Colors.grey,
-                            ),
-                            const SizedBox(width: 20),
-                            Text(
-                              "Logout",
-                              style: TextStyle(
-                                fontSize: 14.sp,
-                              ),
-                            )
-                          ],
-                        ),
-                        SizedBox(height: 20.h),
                       ],
                     ),
                   ),
