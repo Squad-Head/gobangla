@@ -58,7 +58,7 @@ class LandingPage extends HookConsumerWidget {
               width: double.infinity,
               child: Center(
                 child: Text(
-                  'My Cox\'s Bazar',
+                  'Go Bangla',
                   style: TextStyle(
                       fontSize: 100,
                       fontWeight: FontWeight.bold,
