@@ -13,7 +13,7 @@ class LandingPage extends HookConsumerWidget {
   const LandingPage({Key? key}) : super(key: key);
 
   final String text =
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam eleifend nulla ac erat ullamcorper, in tempus odio vestibulum. Suspendisse potenti. Maecenas tempor ultrices nibh vitae condimentum. Vivamus venenatis lacinia mauris ac efficitur. Sed aliquam purus in justo posuere vulputate. Interdum et malesuada fames ac ante ipsum primis in faucibus. Nullam eget venenatis dolor. Mauris nec ultrices tellus. Mauris ultrices augue non tortor blandit aliquam. Curabitur ut lacus pellentesque tellus eleifend volutpat.";
+      "GoBangla is an app which is your all in one Vacation planner for Bangladesh. This will help you guide Cox's bazar tour by booking your hotels, photographer's too, to capture your precious memories in a frame, quad bikes , local guides and so much more.";
 
   @override
   Widget build(BuildContext context, ref) {

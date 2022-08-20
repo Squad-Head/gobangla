@@ -204,7 +204,7 @@ class RegistrationScreen extends HookConsumerWidget {
               CustomDropdown(
                   controller: serviceController,
                   //controller: professionController,
-                  title: 'Join my coxs bazar as a',
+                  title: 'Join Go Bangla As Guest Service provider',
                   icon: CupertinoIcons.bag,
                   items: const [
                     'Photographer',
