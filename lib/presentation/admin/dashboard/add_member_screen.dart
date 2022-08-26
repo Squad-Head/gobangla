@@ -32,8 +32,8 @@ class AddMemberScreen extends HookConsumerWidget {
     final recAddressController = useTextEditingController();
     final recMobileController = useTextEditingController();
 
-    final beachIdController = useTextEditingController();
-    final policeIdController = useTextEditingController();
+    // final beachIdController = useTextEditingController();
+    // final policeIdController = useTextEditingController();
 
     final passwordController = useTextEditingController();
     ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
@@ -192,10 +192,10 @@ class AddMemberScreen extends HookConsumerWidget {
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-              CustomTextField(
-                  controller: beachIdController,
-                  title: 'ID card number (Issued by Beach management committe)',
-                  icon: Icons.file_present),
+              // CustomTextField(
+              //     controller: beachIdController,
+              //     title: 'ID card number (Issued by Beach management committe)',
+              //     icon: Icons.file_present),
               // CustomTextField(
               //     controller: serviceController,
               //     title: 'Service type',
@@ -226,10 +226,10 @@ class AddMemberScreen extends HookConsumerWidget {
                     'Bus',
                     'Speed Boat'
                   ]),
-              CustomTextField(
-                  controller: policeIdController,
-                  title: 'ID card number (Issued by tourist police)',
-                  icon: Icons.file_present),
+              // CustomTextField(
+              //     controller: policeIdController,
+              //     title: 'ID card number (Issued by tourist police)',
+              //     icon: Icons.file_present),
               const SizedBox(
                 height: 20,
               ),
@@ -252,18 +252,19 @@ class AddMemberScreen extends HookConsumerWidget {
                             ),
                             onPressed: () {
                               if (fullNameController.text.isNotEmpty &&
-                                  nidController.text.isNotEmpty &&
-                                  fathersNameController.text.isNotEmpty &&
-                                  mothersNameController.text.isNotEmpty &&
-                                  perAddressController.text.isNotEmpty &&
-                                  mobileController.text.isNotEmpty &&
-                                  recnameController.text.isNotEmpty &&
-                                  recAddressController.text.isNotEmpty &&
-                                  recMobileController.text.isNotEmpty &&
-                                  beachIdController.text.isNotEmpty &&
-                                  serviceController.text.isNotEmpty &&
-                                  passwordController.text.isNotEmpty &&
-                                  policeIdController.text.isNotEmpty) {
+                                      nidController.text.isNotEmpty &&
+                                      fathersNameController.text.isNotEmpty &&
+                                      mothersNameController.text.isNotEmpty &&
+                                      perAddressController.text.isNotEmpty &&
+                                      mobileController.text.isNotEmpty &&
+                                      recnameController.text.isNotEmpty &&
+                                      recAddressController.text.isNotEmpty &&
+                                      recMobileController.text.isNotEmpty &&
+                                      // beachIdController.text.isNotEmpty &&
+                                      serviceController.text.isNotEmpty &&
+                                      passwordController.text.isNotEmpty
+                                  // policeIdController.text.isNotEmpty
+                                  ) {
                                 final registrationModel = RegistrationModel(
                                     phoneVarified: false,
                                     hasAccess: true,
@@ -281,9 +282,8 @@ class AddMemberScreen extends HookConsumerWidget {
                                         recAddressController.text,
                                     recomandationGiverMobileNo:
                                         recMobileController.text,
-                                    beachManagementCommiteeId:
-                                        beachIdController.text,
-                                    touristCommiteeId: policeIdController.text,
+                                    beachManagementCommiteeId: '',
+                                    touristCommiteeId: '',
                                     validityDate: '01/26',
                                     service: serviceController.text,
                                     details: 'details of the user');
