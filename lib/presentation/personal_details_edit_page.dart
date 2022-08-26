@@ -219,9 +219,18 @@ class PersonalDetailsEditScreen extends HookConsumerWidget {
                         'EasyBike (Tom Tom)',
                     'Parasailing',
                     'Kayeking',
-                    'Chander Gari/Car/Bike/CNG',
+                    'Chander Gari',
                     'Restaurant',
-                    'Beach Chair'
+                    'Beach Chair',
+                    'CNG',
+                    'Restaurants',
+                    'Cox\'s Fun Activities'
+                        'Chander Gari',
+                    'Life Guard',
+                    'Ship',
+                    'Flight',
+                    'Bus',
+                    'Speed Boat'
                   ]),
               // CustomTextField(
               //     controller: policeIdController,

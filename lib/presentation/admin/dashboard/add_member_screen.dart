@@ -210,6 +210,21 @@ class AddMemberScreen extends HookConsumerWidget {
                     'Beach bike',
                     'Hotel',
                     'Local Guide'
+                        'EasyBike (Tom Tom)',
+                    'Parasailing',
+                    'Kayeking',
+                    'Chander Gari',
+                    'Restaurant',
+                    'Beach Chair',
+                    'CNG',
+                    'Restaurants',
+                    'Cox\'s Fun Activities'
+                        'Chander Gari',
+                    'Life Guard',
+                    'Ship',
+                    'Flight',
+                    'Bus',
+                    'Speed Boat'
                   ]),
               CustomTextField(
                   controller: policeIdController,
