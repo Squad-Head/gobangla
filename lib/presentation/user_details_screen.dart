@@ -1,9 +1,11 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
+import 'package:tourist_booking/presentation/router/router.gr.dart';
 
 class UserDetailsScreen extends HookConsumerWidget {
   final UserListModel user;
@@ -57,6 +59,27 @@ class UserDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         const Divider(),
                         SizedBox(height: 40.h),
+                        // InkWell(
+                        //   onTap: () {
+                        //     context.router.push(
+                        //         PersonalDetailsEditAdminRoute(user: user));
+                        //   },
+                        //   child: Row(
+                        //     children: [
+                        //       const Icon(
+                        //         Icons.edit_note,
+                        //         color: Colors.grey,
+                        //       ),
+                        //       const SizedBox(width: 20),
+                        //       Text(
+                        //         "Edit profile info",
+                        //         style: TextStyle(
+                        //           fontSize: 14.sp,
+                        //         ),
+                        //       )
+                        //     ],
+                        //   ),
+                        // ),
                       ],
                     ),
                   ),
@@ -117,10 +140,7 @@ class UserDetailsScreen extends HookConsumerWidget {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        PersonalInfo(
-                            title:
-                                'Id number (Issued by beach management committee)',
-                            value: user.beachManagementCommiteeId),
+                        PersonalInfo(title: 'Gobangla ID', value: user.id),
                         PersonalInfo(title: 'Join as a', value: user.service),
                       ],
                     ),
@@ -132,11 +152,5 @@ class UserDetailsScreen extends HookConsumerWidget {
         ),
       ),
     );
-  }
-
-  Future<XFile?> pickImage() async {
-    final ImagePicker picker = ImagePicker();
-    // Pick an image
-    return await picker.pickImage(source: ImageSource.gallery);
   }
 }

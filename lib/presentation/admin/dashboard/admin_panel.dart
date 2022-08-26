@@ -16,9 +16,13 @@ class AdminPanelPage extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final controller = useTextEditingController();
     useEffect(() {
       Future.delayed(const Duration(milliseconds: 100), () {
         ref.read(adminAuthProvider.notifier).getUserData();
+        controller.addListener(() {
+          ref.read(adminAuthProvider.notifier).searchUser(controller.text);
+        });
       });
       return null;
     }, []);
@@ -82,7 +86,25 @@ class AdminPanelPage extends HookConsumerWidget {
         centerTitle: false,
         titleTextStyle:
             const TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-        title: const Text('GoBangla Admin'),
+        title: Row(
+          children: [
+            const Text('GoBangla Admin'),
+            Expanded(
+                child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 100),
+              child: TextField(
+                controller: controller,
+                decoration: InputDecoration(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 50),
+                    suffixIcon: IconButton(
+                        onPressed: () {}, icon: const Icon(Icons.search)),
+                    border: OutlineInputBorder(
+                        borderSide: const BorderSide(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(40))),
+              ),
+            ))
+          ],
+        ),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -143,7 +165,7 @@ class AdminPanelPage extends HookConsumerWidget {
                         SizedBox(
                           width: 150.w,
                           child: Text(
-                            'Beach management\ncommittee id',
+                            'Go bangla ID',
                             style: TextStyle(
                               fontSize: 13.sp,
                               color: Colors.purple,
@@ -156,6 +178,7 @@ class AdminPanelPage extends HookConsumerWidget {
                     ListView.separated(
                       physics: const NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
+                      itemCount: state.userList.length,
                       itemBuilder: (context, index) {
                         final user = state.userList[index];
                         return InkWell(
@@ -207,8 +230,7 @@ class AdminPanelPage extends HookConsumerWidget {
                               SizedBox(
                                 width: 150.w,
                                 child: Text(
-                                  state.userList[index]
-                                      .beachManagementCommiteeId,
+                                  state.userList[index].id,
                                   style: TextStyle(
                                     fontSize: 13.sp,
                                     color: const Color(0xFF505062),
@@ -234,16 +256,6 @@ class AdminPanelPage extends HookConsumerWidget {
                                     }
                                   },
                                   itemBuilder: (context) => [
-                                    // const PopupMenuItem(
-                                    //   value: 1,
-                                    //   child: Text(
-                                    //     "Info",
-                                    //   ),
-                                    // ),
-                                    // const PopupMenuItem(
-                                    //   value: 2,
-                                    //   child: Text("Edit"),
-                                    // ),
                                     const PopupMenuItem(
                                       value: 3,
                                       child: Text(
@@ -260,8 +272,7 @@ class AdminPanelPage extends HookConsumerWidget {
                       },
                       separatorBuilder: (context, index) =>
                           const SizedBox(height: 10),
-                      itemCount: state.userList.length,
-                    ),
+                    )
                   ],
                 ),
               ),

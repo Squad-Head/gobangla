@@ -5,6 +5,7 @@ import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model.dart';
 
 class AdminRepo extends IAdminRepo {
   final cleanApi = CleanApi.instance;
@@ -97,5 +98,17 @@ class AdminRepo extends IAdminRepo {
         endPoint: 'user/add-new-user-by-admin');
 
     return data.fold((l) => some(l), (r) => none());
+  }
+
+  @override
+  Future<Either<CleanFailure, Unit>> update(
+      UpdateUserModel updateUserModel) async {
+    final data = await cleanApi.post(
+        fromData: (json) => json,
+        showLogs: true,
+        body: updateUserModel.toMap(),
+        endPoint: 'user/edit-user-by-user-id');
+
+    return data.fold((l) => left(l), (r) => right(unit));
   }
 }

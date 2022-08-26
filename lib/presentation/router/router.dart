@@ -3,6 +3,8 @@ import 'package:tourist_booking/presentation/admin/auth/admin_login_page.dart';
 import 'package:tourist_booking/presentation/admin/dashboard/add_member_screen.dart';
 import 'package:tourist_booking/presentation/admin/dashboard/admin_panel.dart';
 import 'package:tourist_booking/presentation/personal_details.dart';
+import 'package:tourist_booking/presentation/personal_details_edit_page.dart';
+import 'package:tourist_booking/presentation/personal_details_edit_admin_page.dart';
 import 'package:tourist_booking/presentation/user/auth/landing_page.dart';
 import 'package:tourist_booking/presentation/user/auth/registration/registration_screen.dart';
 import 'package:tourist_booking/presentation/user_details_screen.dart';
@@ -17,6 +19,14 @@ import 'package:tourist_booking/presentation/user_details_screen.dart';
     AutoRoute(
       page: AdminLoginPage,
       path: 'admin-login',
+    ),
+    AutoRoute(
+      page: PersonalDetailsEditScreen,
+      path: 'edit-personal-details',
+    ),
+    AutoRoute(
+      page: PersonalDetailsEditAdminScreen,
+      path: 'edit-personal-details-admina',
     ),
     AutoRoute(page: AdminPanelPage, path: 'admin-dashboard'),
     AutoRoute(page: AddMemberScreen, path: 'add-member'),

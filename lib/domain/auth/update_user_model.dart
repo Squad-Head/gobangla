@@ -1,12 +1,11 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-class UserListModel extends Equatable {
-  final String id;
+class UpdateUserModel extends Equatable {
   final bool hasAccess;
   final String fullName;
-  final String password;
   final String nidNo;
   final String phoneNo;
   final String fathersName;
@@ -21,14 +20,10 @@ class UserListModel extends Equatable {
   final String validityDate;
   final String service;
   final String details;
-  final String avater;
-  final String cloudinaryId;
   final bool phoneVarified;
-  const UserListModel(
-      {required this.id,
-      required this.hasAccess,
+  const UpdateUserModel(
+      {required this.hasAccess,
       required this.fullName,
-      required this.password,
       required this.nidNo,
       required this.phoneNo,
       required this.fathersName,
@@ -43,13 +38,10 @@ class UserListModel extends Equatable {
       required this.validityDate,
       required this.service,
       required this.details,
-      required this.avater,
-      required this.cloudinaryId,
       required this.phoneVarified});
 
-  UserListModel copyWith(
-      {String? id,
-      bool? hasAccess,
+  UpdateUserModel copyWith(
+      {bool? hasAccess,
       String? fullName,
       String? password,
       String? nidNo,
@@ -66,15 +58,11 @@ class UserListModel extends Equatable {
       String? validityDate,
       String? service,
       String? details,
-      String? avater,
-      String? cloudinaryId,
       bool? phoneVarified}) {
-    return UserListModel(
+    return UpdateUserModel(
       phoneVarified: phoneVarified ?? this.phoneVarified,
-      id: id ?? this.id,
       hasAccess: hasAccess ?? this.hasAccess,
       fullName: fullName ?? this.fullName,
-      password: password ?? this.password,
       nidNo: nidNo ?? this.nidNo,
       phoneNo: phoneNo ?? this.phoneNo,
       fathersName: fathersName ?? this.fathersName,
@@ -93,17 +81,14 @@ class UserListModel extends Equatable {
       validityDate: validityDate ?? this.validityDate,
       service: service ?? this.service,
       details: details ?? this.details,
-      avater: avater ?? this.avater,
-      cloudinaryId: cloudinaryId ?? this.cloudinaryId,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return {
-      'id': id,
+    return <String, dynamic>{
+      'phoneVarified': phoneVarified,
       'hasAccess': hasAccess,
       'fullName': fullName,
-      'password': password,
       'nidNo': nidNo,
       'phoneNo': phoneNo,
       'fathersName': fathersName,
@@ -118,54 +103,45 @@ class UserListModel extends Equatable {
       'validityDate': validityDate,
       'service': service,
       'details': details,
-      'avater': avater,
-      'cloudinaryId': cloudinaryId,
     };
   }
 
-  factory UserListModel.fromMap(Map<String, dynamic> map) {
-    return UserListModel(
-      id: map['_id'] ?? '',
-      hasAccess: map['hasAccess'] ?? false,
-      fullName: map['fullName'] ?? '',
-      password: map['password'] ?? '',
-      nidNo: map['nidNo'] ?? '',
-      phoneNo: map['phoneNo'] ?? '',
-      fathersName: map['fathersName'] ?? '',
-      mothersName: map['mothersName'] ?? '',
-      permanentAddress: map['permanentAddress'] ?? '',
-      presentAddress: map['presentAddress'] ?? '',
-      recomandationGiverName: map['recomandationGiverName'] ?? '',
-      recomandationGiverAddress: map['recomandationGiverAddress'] ?? '',
-      recomandationGiverMobileNo: map['recomandationGiverMobileNo'] ?? '',
-      beachManagementCommiteeId: map['beachManagementCommiteeId'] ?? '',
-      touristCommiteeId: map['touristCommiteeId'] ?? '',
-      validityDate: map['validityDate'] ?? '',
-      service: map['service'] ?? '',
-      details: map['details'] ?? '',
-      avater: map['avater'] ?? '',
-      cloudinaryId: map['cloudinaryId'] ?? '',
-      phoneVarified: map['phoneVarified'] ?? false,
+  factory UpdateUserModel.fromMap(Map<String, dynamic> map) {
+    return UpdateUserModel(
+      phoneVarified: map['phoneVarified'],
+      hasAccess: map['hasAccess'] as bool,
+      fullName: map['fullName'] as String,
+      nidNo: map['nidNo'] as String,
+      phoneNo: map['phoneNo'] as String,
+      fathersName: map['fathersName'] as String,
+      mothersName: map['mothersName'] as String,
+      permanentAddress: map['permanentAddress'] as String,
+      presentAddress: map['presentAddress'] as String,
+      recomandationGiverName: map['recomandationGiverName'] as String,
+      recomandationGiverAddress: map['recomandationGiverAddress'] as String,
+      recomandationGiverMobileNo: map['recomandationGiverMobileNo'] as String,
+      beachManagementCommiteeId: map['beachManagementCommiteeId'] as String,
+      touristCommiteeId: map['touristCommiteeId'] as String,
+      validityDate: map['validityDate'] as String,
+      service: map['service'] as String,
+      details: map['details'] as String,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory UserListModel.fromJson(String source) =>
-      UserListModel.fromMap(json.decode(source));
+  factory UpdateUserModel.fromJson(String source) =>
+      UpdateUserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
-  String toString() {
-    return 'UserListModel(id: $id, hasAccess: $hasAccess, fullName: $fullName, password: $password, nidNo: $nidNo, phoneNo: $phoneNo, fathersName: $fathersName, mothersName: $mothersName, permanentAddress: $permanentAddress, presentAddress: $presentAddress, recomandationGiverName: $recomandationGiverName, recomandationGiverAddress: $recomandationGiverAddress, recomandationGiverMobileNo: $recomandationGiverMobileNo, beachManagementCommiteeId: $beachManagementCommiteeId, touristCommiteeId: $touristCommiteeId, validityDate: $validityDate, service: $service, details: $details, avater: $avater, cloudinaryId: $cloudinaryId)';
-  }
+  bool get stringify => true;
 
   @override
   List<Object> get props {
     return [
-      id,
+      phoneVarified,
       hasAccess,
       fullName,
-      password,
       nidNo,
       phoneNo,
       fathersName,
@@ -180,9 +156,25 @@ class UserListModel extends Equatable {
       validityDate,
       service,
       details,
-      avater,
-      cloudinaryId,
-      phoneVarified
     ];
   }
+
+  factory UpdateUserModel.init() => const UpdateUserModel(
+      phoneVarified: false,
+      hasAccess: false,
+      fullName: '',
+      nidNo: '',
+      phoneNo: '',
+      fathersName: '',
+      mothersName: '',
+      permanentAddress: '',
+      presentAddress: '',
+      recomandationGiverName: '',
+      recomandationGiverAddress: '',
+      recomandationGiverMobileNo: '',
+      beachManagementCommiteeId: '',
+      touristCommiteeId: '',
+      validityDate: '',
+      service: '',
+      details: '');
 }

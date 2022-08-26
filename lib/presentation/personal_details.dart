@@ -20,7 +20,7 @@ class PersonalDetailsScreen extends HookConsumerWidget {
   Widget build(BuildContext context, ref) {
     final state = ref.watch(authProvider);
     ref.listen<AuthState>(authProvider, (previous, next) async {
-      if (next.user == UserModel.init()) {
+      if (next.user == UserModel.init() && !next.loading) {
         context.router.navigate(
           const LandingRoute(),
         );
@@ -88,6 +88,27 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         InkWell(
                           onTap: () {
+                            context.router
+                                .push(const PersonalDetailsEditRoute());
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.edit_note,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(width: 20),
+                              Text(
+                                "Edit profile info",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
                             ref.read(authProvider.notifier).logout();
                           },
                           child: Row(
@@ -125,16 +146,6 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                         PersonalInfo(
                           title: 'Full name',
                           value: state.user.fullName,
-                          onPress: () {
-                            // showDialog(
-                            //     context: context,
-                            //     builder: (context) => ShowEditDialog(about: ,));
-                            // if (editController.text.isNotEmpty) {
-                            //   ref
-                            //       .read(editProvider.notifier)
-                            //       .editFullName(editController.text);
-                            // }
-                          },
                         ),
                         PersonalInfo(
                             title: 'NID number', value: state.user.nidNo),
@@ -172,9 +183,7 @@ class PersonalDetailsScreen extends HookConsumerWidget {
                           ),
                         ),
                         PersonalInfo(
-                            title:
-                                'Id number (Issued by beach management committee)',
-                            value: state.user.beachManagementCommiteeId),
+                            title: 'Gobangla Id', value: state.user.id),
                         PersonalInfo(
                             title: 'Join as a', value: state.user.service),
                         Column(
@@ -248,12 +257,13 @@ class PersonalDetailsScreen extends HookConsumerWidget {
       final random = Random();
       final otp = random.nextIntOfDigits(6);
 
-      final data = CleanApi.instance.post(
+      final data = await CleanApi.instance.post(
           fromData: (json) => json,
           body: {'receiver': '+88$phone', 'otp': otp},
           endPoint: 'sms/send-message');
 
-      Logger.i(data);
+      Logger.i(data.fold((l) => l, (r) => r));
+      Logger.i(otp);
       return otp;
     } catch (e) {
       Logger.e(e);

@@ -27,7 +27,7 @@ class LandingPage extends HookConsumerWidget {
     ref.listen<AuthState>(authProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
         if (next.user != UserModel.init()) {
-          context.router.navigate(
+          context.router.popAndPush(
             const PersonalDetailsRoute(),
           );
         } else if (next.failure != CleanFailure.none()) {

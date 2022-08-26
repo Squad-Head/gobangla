@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/auth/auth_state.dart';
 import 'package:tourist_booking/domain/auth/i_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model.dart';
 import 'package:tourist_booking/infrastucture/auth/auth_repo.dart';
 
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
@@ -48,6 +49,14 @@ class AuthNotifier extends StateNotifier<AuthState> {
             loading: false, user: r, failure: CleanFailure.none()));
   }
 
+  getProfile() async {
+    state = state.copyWith(loading: true);
+
+    final data = await authRepo.getUserInfo();
+    state = data.fold((l) => state.copyWith(failure: l, loading: false),
+        (r) => state.copyWith(user: r, loading: false));
+  }
+
   uploadProfile(XFile image) async {
     state = state.copyWith(loading: true);
     await authRepo.uploadImage(image, state.user.id);
@@ -65,6 +74,15 @@ class AuthNotifier extends StateNotifier<AuthState> {
     await authRepo.logout();
 
     state = AuthState.init();
+  }
+
+  updateProfile(UpdateUserModel updateUserModel) async {
+    state = state.copyWith(loading: true);
+    final data = await authRepo.update(updateUserModel);
+    state = state.copyWith(
+        failure: data.fold((l) => l, (r) => CleanFailure.none()));
+
+    getProfile();
   }
 
   verifyPhone() async {

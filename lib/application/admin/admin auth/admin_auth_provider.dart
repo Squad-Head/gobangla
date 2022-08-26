@@ -3,6 +3,7 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model.dart';
 import 'package:tourist_booking/infrastucture/admin/auth/admin_auth_repo.dart';
 
 final adminAuthProvider =
@@ -33,7 +34,7 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
     final data = await repo.getUserData();
     state = data.fold(
       (l) => state.copyWith(loading: false, failure: l),
-      (r) => state.copyWith(loading: false, userList: r),
+      (r) => state.copyWith(loading: false, userList: r, allUserList: r),
     );
   }
 
@@ -74,9 +75,36 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
     });
   }
 
+  searchUser(String keyword) {
+    if (keyword.isNotEmpty) {
+      final users = state.allUserList
+          .where((element) =>
+              element.fullName.toLowerCase().contains(keyword) ||
+              element.service.toLowerCase().contains(keyword) ||
+              element.phoneNo.contains(keyword) ||
+              element.touristCommiteeId.contains(keyword) ||
+              element.nidNo.contains(keyword))
+          .toList();
+
+      state = state.copyWith(userList: users);
+    } else {
+      final users = state.allUserList;
+      state = state.copyWith(userList: users);
+    }
+  }
+
   logout() async {
     await repo.logout();
 
     state = AdminAuthState.init();
+  }
+
+  updateProfile(UpdateUserModel updateUserModel) async {
+    state = state.copyWith(loading: true);
+    final data = await repo.update(updateUserModel);
+    state = state.copyWith(
+        failure: data.fold((l) => l, (r) => CleanFailure.none()));
+
+    getUserData();
   }
 }

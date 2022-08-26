@@ -4,45 +4,52 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
+import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
 import 'package:tourist_booking/application/auth/auth_provider.dart';
-import 'package:tourist_booking/application/auth/auth_state.dart';
-import 'package:tourist_booking/domain/auth/registration_model.dart';
-import 'package:tourist_booking/domain/auth/user_model.dart';
-import 'package:tourist_booking/presentation/auth/widgets/custom_textfield.dart';
-import 'package:tourist_booking/presentation/router/router.gr.dart';
+import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model.dart';
 
-import 'custom_dropdown.dart';
+import 'auth/widgets/custom_textfield.dart';
+import 'user/auth/registration/custom_dropdown.dart';
 
-class RegistrationScreen extends HookConsumerWidget {
-  const RegistrationScreen({Key? key}) : super(key: key);
+class PersonalDetailsEditAdminScreen extends HookConsumerWidget {
+  final UserListModel user;
+  const PersonalDetailsEditAdminScreen({Key? key, required this.user})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context, ref) {
-    final serviceController = useTextEditingController();
+    final serviceController = useTextEditingController(text: user.service);
 
-    final fullNameController = useTextEditingController();
-    final nidController = useTextEditingController();
-    final fathersNameController = useTextEditingController();
-    final mothersNameController = useTextEditingController();
-    final perAddressController = useTextEditingController();
-    final mobileController = useTextEditingController();
+    final fullNameController = useTextEditingController(text: user.fullName);
+    final nidController = useTextEditingController(text: user.nidNo);
+    final fathersNameController =
+        useTextEditingController(text: user.fathersName);
+    final mothersNameController =
+        useTextEditingController(text: user.mothersName);
+    final perAddressController =
+        useTextEditingController(text: user.permanentAddress);
+    final mobileController = useTextEditingController(text: user.phoneNo);
 
-    final recnameController = useTextEditingController();
-    final recAddressController = useTextEditingController();
-    final recMobileController = useTextEditingController();
+    final recnameController =
+        useTextEditingController(text: user.recomandationGiverName);
+    final recAddressController =
+        useTextEditingController(text: user.recomandationGiverAddress);
+    final recMobileController =
+        useTextEditingController(text: user.recomandationGiverMobileNo);
 
-    // final beachIdController = useTextEditingController();
-    // final policeIdController = useTextEditingController();
+    // final beachIdController =
+    //     useTextEditingController(text: user.beachManagementCommiteeId);
+    // final policeIdController =
+    //     useTextEditingController(text: user.touristCommiteeId);
 
-    final passwordController = useTextEditingController();
-    ref.listen<AuthState>(authProvider, (previous, next) async {
+    ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
       if (previous?.loading != next.loading && !next.loading) {
-        if (next.user != UserModel.init()) {
-          context.router.navigate(
-            const PersonalDetailsRoute(),
-          );
-        } else if (next.failure != CleanFailure.none()) {
+        if (next.failure != CleanFailure.none()) {
           next.failure.showDialogue(context);
+        } else {
+          context.router.pop();
         }
       }
     });
@@ -225,13 +232,7 @@ class RegistrationScreen extends HookConsumerWidget {
               const SizedBox(
                 height: 20,
               ),
-              CustomTextField(
-                  controller: passwordController,
-                  title: 'Password',
-                  icon: Icons.lock),
-              const SizedBox(
-                height: 20,
-              ),
+
               Center(
                 child: loading
                     ? const CircularProgressIndicator()
@@ -252,13 +253,11 @@ class RegistrationScreen extends HookConsumerWidget {
                                   recnameController.text.isNotEmpty &&
                                   recAddressController.text.isNotEmpty &&
                                   recMobileController.text.isNotEmpty &&
-                                  serviceController.text.isNotEmpty &&
-                                  passwordController.text.isNotEmpty) {
-                                final registrationModel = RegistrationModel(
-                                    phoneVarified: false,
+                                  serviceController.text.isNotEmpty) {
+                                final updateData = UpdateUserModel(
+                                    phoneVarified: user.phoneVarified,
                                     hasAccess: true,
                                     fullName: fullNameController.text,
-                                    password: passwordController.text,
                                     nidNo: nidController.text,
                                     phoneNo: mobileController.text,
                                     fathersName: fathersNameController.text,
@@ -277,13 +276,13 @@ class RegistrationScreen extends HookConsumerWidget {
                                     service: serviceController.text,
                                     details: 'details of the user');
                                 ref
-                                    .read(authProvider.notifier)
-                                    .registration(registrationModel);
+                                    .read(adminAuthProvider.notifier)
+                                    .updateProfile(updateData);
                               } else {
                                 Logger.i('fields needed');
                               }
                             },
-                            child: const Text('Registration')),
+                            child: const Text('Update')),
                       ),
               ),
               const SizedBox(
@@ -291,8 +290,6 @@ class RegistrationScreen extends HookConsumerWidget {
               ),
             ]),
           )),
-
-          //Center(child: Text('Hello'))
         ],
       ),
     );

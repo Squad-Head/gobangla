@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/domain/auth/i_auth_repo.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model.dart';
 import 'package:tourist_booking/domain/auth/user_model.dart';
 
 class AuthRepo extends IAuthRepo {
@@ -172,7 +173,19 @@ class AuthRepo extends IAuthRepo {
     await cleanApi.post(
         fromData: (json) => json,
         showLogs: true,
-        body: {"phoneVarified": false},
-        endPoint: 'user/edit-user-by-user-id');
+        body: {"phoneVarified": true},
+        endPoint: 'user/edit-loggedin-user-info');
+  }
+
+  @override
+  Future<Either<CleanFailure, Unit>> update(
+      UpdateUserModel updateUserModel) async {
+    final data = await cleanApi.post(
+        fromData: (json) => json,
+        showLogs: true,
+        body: updateUserModel.toMap(),
+        endPoint: 'user/edit-loggedin-user-info');
+
+    return data.fold((l) => left(l), (r) => right(unit));
   }
 }
