@@ -28,10 +28,12 @@ class AdminPanelPage extends HookConsumerWidget {
     }, []);
 
     ref.listen<AdminAuthState>(adminAuthProvider, (previous, next) async {
-      if (next.user == AdminUserModel.empty()) {
-        context.router.navigate(
-          const LandingRoute(),
-        );
+      if (previous?.loading != next.loading) {
+        if (next.user == AdminUserModel.empty()) {
+          context.router.navigate(
+            const LandingRoute(),
+          );
+        }
       }
     });
 

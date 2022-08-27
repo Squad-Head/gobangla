@@ -1,7 +1,9 @@
 import 'package:clean_api/clean_api.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_state.dart';
 import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
+import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/update_user_model.dart';
 import 'package:tourist_booking/infrastucture/admin/auth/admin_auth_repo.dart';
@@ -106,5 +108,23 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
         failure: data.fold((l) => l, (r) => CleanFailure.none()));
 
     getUserData();
+  }
+
+  Future<UserListModel?> uploadProfile(XFile image, String userId) async {
+    await repo.uploadImage(image, userId);
+    final dataList = await repo.getUserData();
+    state = dataList.fold(
+      (l) => state.copyWith(failure: l),
+      (r) => state.copyWith(userList: r, allUserList: r),
+    );
+    final data =
+        state.allUserList.where((element) => element.id == userId).toList();
+
+    Logger.i(data);
+    if (data.isNotEmpty) {
+      return data.first;
+    } else {
+      return null;
+    }
   }
 }

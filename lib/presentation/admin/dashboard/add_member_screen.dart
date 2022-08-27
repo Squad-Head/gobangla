@@ -192,14 +192,6 @@ class AddMemberScreen extends HookConsumerWidget {
                       color: Colors.black, fontWeight: FontWeight.bold),
                 ),
               ),
-              // CustomTextField(
-              //     controller: beachIdController,
-              //     title: 'ID card number (Issued by Beach management committe)',
-              //     icon: Icons.file_present),
-              // CustomTextField(
-              //     controller: serviceController,
-              //     title: 'Service type',
-              //     icon: CupertinoIcons.bag),
               CustomDropdown(
                   controller: serviceController,
                   //controller: professionController,
@@ -207,29 +199,19 @@ class AddMemberScreen extends HookConsumerWidget {
                   icon: CupertinoIcons.bag,
                   items: const [
                     'Photographer',
-                    'Beach bike',
-                    'Hotel',
-                    'Local Guide'
-                        'EasyBike (Tom Tom)',
+                    'Beach Bike',
+                    'Local Tour Guide',
+                    'Easy Bike (Tom Tom)',
                     'Parasailing',
-                    'Kayeking',
+                    'Kayaking',
                     'Chander Gari',
-                    'Restaurant',
                     'Beach Chair',
                     'CNG',
-                    'Restaurants',
-                    'Cox\'s Fun Activities'
-                        'Chander Gari',
+                    'Cox\'s Fun Activities',
                     'Life Guard',
-                    'Ship',
-                    'Flight',
-                    'Bus',
-                    'Speed Boat'
+                    'Speed Boat',
+                    'Others',
                   ]),
-              // CustomTextField(
-              //     controller: policeIdController,
-              //     title: 'ID card number (Issued by tourist police)',
-              //     icon: Icons.file_present),
               const SizedBox(
                 height: 20,
               ),

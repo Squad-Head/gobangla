@@ -1,11 +1,12 @@
-import 'package:auto_route/auto_route.dart';
+import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
-import 'package:tourist_booking/presentation/router/router.gr.dart';
 
 class UserDetailsScreen extends HookConsumerWidget {
   final UserListModel user;
@@ -13,6 +14,7 @@ class UserDetailsScreen extends HookConsumerWidget {
 
   @override
   Widget build(BuildContext context, ref) {
+    final data = useState(user);
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
@@ -36,17 +38,35 @@ class UserDetailsScreen extends HookConsumerWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
+                            IconButton(
+                              onPressed: () async {
+                                final image = await pickImage();
+                                if (image != null) {
+                                  final newUser = await ref
+                                      .read(adminAuthProvider.notifier)
+                                      .uploadProfile(image, data.value.id);
+
+                                  Logger.i(newUser);
+
+                                  if (newUser != null) {
+                                    data.value = newUser;
+                                  }
+                                }
+                              },
+                              icon: const Icon(Icons.camera_alt_sharp),
+                            ),
                             SizedBox(width: 20.w),
                             Column(
                               children: [
                                 CircleAvatar(
                                     radius: 80.w,
-                                    backgroundImage: user.avater.isNotEmpty
-                                        ? NetworkImage(user.avater)
-                                        : null),
+                                    backgroundImage:
+                                        data.value.avater.isNotEmpty
+                                            ? NetworkImage(data.value.avater)
+                                            : null),
                                 SizedBox(height: 20.h),
                                 Text(
-                                  user.fullName,
+                                  data.value.fullName,
                                   //"User Name",
                                   style: TextStyle(
                                       fontSize: 16.sp,
@@ -59,27 +79,6 @@ class UserDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         const Divider(),
                         SizedBox(height: 40.h),
-                        // InkWell(
-                        //   onTap: () {
-                        //     context.router.push(
-                        //         PersonalDetailsEditAdminRoute(user: user));
-                        //   },
-                        //   child: Row(
-                        //     children: [
-                        //       const Icon(
-                        //         Icons.edit_note,
-                        //         color: Colors.grey,
-                        //       ),
-                        //       const SizedBox(width: 20),
-                        //       Text(
-                        //         "Edit profile info",
-                        //         style: TextStyle(
-                        //           fontSize: 14.sp,
-                        //         ),
-                        //       )
-                        //     ],
-                        //   ),
-                        // ),
                       ],
                     ),
                   ),
@@ -97,7 +96,7 @@ class UserDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         PersonalInfo(
                           title: 'Full name',
-                          value: user.fullName,
+                          value: data.value.fullName,
                           onPress: () {
                             // showDialog(
                             //     context: context,
@@ -109,16 +108,19 @@ class UserDetailsScreen extends HookConsumerWidget {
                             // }
                           },
                         ),
-                        PersonalInfo(title: 'NID number', value: user.nidNo),
                         PersonalInfo(
-                            title: 'Fathers name', value: user.fathersName),
+                            title: 'NID number', value: data.value.nidNo),
                         PersonalInfo(
-                            title: 'Mothers name', value: user.mothersName),
+                            title: 'Fathers name',
+                            value: data.value.fathersName),
                         PersonalInfo(
-                            title: 'Mobile number', value: user.phoneNo),
+                            title: 'Mothers name',
+                            value: data.value.mothersName),
+                        PersonalInfo(
+                            title: 'Mobile number', value: data.value.phoneNo),
                         PersonalInfo(
                             title: 'Permanent address',
-                            value: user.permanentAddress),
+                            value: data.value.permanentAddress),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -128,10 +130,11 @@ class UserDetailsScreen extends HookConsumerWidget {
                           ),
                         ),
                         PersonalInfo(
-                            title: 'Name', value: user.recomandationGiverName),
+                            title: 'Name',
+                            value: data.value.recomandationGiverName),
                         PersonalInfo(
                             title: 'Phone number',
-                            value: user.recomandationGiverMobileNo),
+                            value: data.value.recomandationGiverMobileNo),
                         const Padding(
                           padding: EdgeInsets.symmetric(vertical: 10),
                           child: Text(
@@ -140,8 +143,10 @@ class UserDetailsScreen extends HookConsumerWidget {
                                 fontSize: 20, fontWeight: FontWeight.bold),
                           ),
                         ),
-                        PersonalInfo(title: 'Gobangla ID', value: user.id),
-                        PersonalInfo(title: 'Join as a', value: user.service),
+                        PersonalInfo(
+                            title: 'Gobangla ID', value: data.value.id),
+                        PersonalInfo(
+                            title: 'Join as a', value: data.value.service),
                       ],
                     ),
                   ),
@@ -152,5 +157,11 @@ class UserDetailsScreen extends HookConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<XFile?> pickImage() async {
+    final ImagePicker picker = ImagePicker();
+    // Pick an image
+    return await picker.pickImage(source: ImageSource.gallery);
   }
 }

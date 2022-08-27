@@ -1,4 +1,6 @@
 import 'package:clean_api/clean_api.dart';
+import 'package:http/http.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
@@ -110,5 +112,31 @@ class AdminRepo extends IAdminRepo {
         endPoint: 'user/edit-user-by-user-id');
 
     return data.fold((l) => left(l), (r) => right(unit));
+  }
+
+  @override
+  Future<void> uploadImage(XFile image, String userId) async {
+    try {
+      final uri = Uri.parse(
+          'https://beach-data.up.railway.app/api/user/upload-user-image-by-admin?params=$userId');
+      Logger.i(
+          'https://beach-data.up.railway.app/api/user/upload-user-image-by-admin?params=$userId');
+
+      var request = MultipartRequest('POST', uri);
+      final bytes = await image.readAsBytes();
+      final httpImage =
+          MultipartFile.fromBytes('image', bytes, filename: image.name);
+      final headers = await cleanApi.header(true);
+      request.headers.addAll(headers);
+      request.headers.addAll({"Content-Type": image.mimeType!});
+      Logger.i(request.headers);
+      request.files.add(httpImage);
+      final response = await request.send();
+      Logger.i(response.statusCode);
+      final respStr = await response.stream.bytesToString();
+      Logger.i(respStr);
+    } catch (e) {
+      Logger.e(e);
+    }
   }
 }

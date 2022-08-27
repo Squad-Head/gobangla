@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:clean_api/clean_api.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
