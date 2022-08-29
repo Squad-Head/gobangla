@@ -10,6 +10,7 @@ import 'package:tourist_booking/application/auth/auth_provider.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/update_user_model.dart';
 
+import '../domain/auth/update_user_model_with_id.dart';
 import 'auth/widgets/custom_textfield.dart';
 import 'user/auth/registration/custom_dropdown.dart';
 
@@ -257,7 +258,8 @@ class PersonalDetailsEditAdminScreen extends HookConsumerWidget {
                                   recAddressController.text.isNotEmpty &&
                                   recMobileController.text.isNotEmpty &&
                                   serviceController.text.isNotEmpty) {
-                                final updateData = UpdateUserModel(
+                                final updateData = UpdateUserModelWithId(
+                                    id: user.id,
                                     phoneVarified: user.phoneVarified,
                                     hasAccess: true,
                                     fullName: fullNameController.text,

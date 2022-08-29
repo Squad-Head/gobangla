@@ -6,6 +6,7 @@ import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/update_user_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model_with_id.dart';
 import 'package:tourist_booking/infrastucture/admin/auth/admin_auth_repo.dart';
 
 final adminAuthProvider =
@@ -101,7 +102,7 @@ class AdminAuthNotifier extends StateNotifier<AdminAuthState> {
     state = AdminAuthState.init();
   }
 
-  updateProfile(UpdateUserModel updateUserModel) async {
+  updateProfile(UpdateUserModelWithId updateUserModel) async {
     state = state.copyWith(loading: true);
     final data = await repo.update(updateUserModel);
     state = state.copyWith(

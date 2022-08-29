@@ -4,7 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/domain/admin/auth/admin_user_model.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
-import 'package:tourist_booking/domain/auth/update_user_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model_with_id.dart';
 
 abstract class IAdminRepo {
   Future<Either<CleanFailure, AdminUserModel>> adminLogIn(
@@ -15,6 +15,7 @@ abstract class IAdminRepo {
   Future logout();
   Future<Option<CleanFailure>> deleteUser(String userId);
   Future<Option<CleanFailure>> addMember(RegistrationModel body);
-  Future<Either<CleanFailure, Unit>> update(UpdateUserModel updateUserModel);
+  Future<Either<CleanFailure, Unit>> update(
+      UpdateUserModelWithId updateUserModel);
   Future<void> uploadImage(XFile image, String userId);
 }

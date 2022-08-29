@@ -8,6 +8,7 @@ import 'package:tourist_booking/domain/admin/auth/i_admin_auth_repo.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/domain/auth/registration_model.dart';
 import 'package:tourist_booking/domain/auth/update_user_model.dart';
+import 'package:tourist_booking/domain/auth/update_user_model_with_id.dart';
 
 class AdminRepo extends IAdminRepo {
   final cleanApi = CleanApi.instance;
@@ -104,7 +105,7 @@ class AdminRepo extends IAdminRepo {
 
   @override
   Future<Either<CleanFailure, Unit>> update(
-      UpdateUserModel updateUserModel) async {
+      UpdateUserModelWithId updateUserModel) async {
     final data = await cleanApi.post(
         fromData: (json) => json,
         showLogs: true,

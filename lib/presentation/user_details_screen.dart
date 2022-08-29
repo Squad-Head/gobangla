@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:clean_api/clean_api.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -7,6 +8,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:tourist_booking/application/admin/admin%20auth/admin_auth_provider.dart';
 import 'package:tourist_booking/domain/admin/user/user_list_model.dart';
 import 'package:tourist_booking/presentation/personal_info.dart';
+import 'package:tourist_booking/presentation/router/router.gr.dart';
 
 class UserDetailsScreen extends HookConsumerWidget {
   final UserListModel user;
@@ -79,6 +81,27 @@ class UserDetailsScreen extends HookConsumerWidget {
                         SizedBox(height: 40.h),
                         const Divider(),
                         SizedBox(height: 40.h),
+                        InkWell(
+                          onTap: () {
+                            context.router.push(
+                                PersonalDetailsEditAdminRoute(user: user));
+                          },
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.edit_note,
+                                color: Colors.grey,
+                              ),
+                              const SizedBox(width: 20),
+                              Text(
+                                "Edit profile info",
+                                style: TextStyle(
+                                  fontSize: 14.sp,
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
